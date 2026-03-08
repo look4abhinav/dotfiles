@@ -1,0 +1,17 @@
+# This is default config for bat.
+
+# Set the theme to "Catppuccin Mocha"
+--theme="Catppuccin Mocha"
+
+# Show line numbers, git modifications and file header (but no grid)
+--style="numbers,changes,header"
+
+# Use italic text on the terminal (not supported on all terminals)
+--italic-text=always
+
+# Add mouse support (all modes)
+--pager="less -FR"
+
+# Use C++ syntax for .ino files
+--map-syntax h:cpp
+--map-syntax .ignore:gitignore
