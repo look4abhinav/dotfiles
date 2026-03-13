@@ -1,0 +1,50 @@
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[core]
+	preloadindex = true
+	fsmonitor = true
+	untrackedcache = true
+[gc]
+	auto = 8000
+[pack]
+	threads = 0
+	windowMemory = 1g
+	packSizeLimit = 512m
+[rebase]
+	autoStash = true
+[merge]
+	autoStash = true
+[push]
+	default = current
+	autoSetupRemote = true
+[fetch]
+	prune = true
+	pruneTags = true
+[branch]
+	sort = -committerdate
+[dif]
+	algorithm = histogram
+[help]
+	autoCorrect = prompt
+[alias]
+	st = status -s
+	ci = commit
+	co = checkout
+	br = branch
+	lg = log --oneline --graph
+[user]
+	name = Abhinav Srivastava
+	email = look4abhinav@outlook.in
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4psPaRdVqyIiEcLPwmD19uRQY54RMgi55Kj2FylIdu look4abhinav@outlook.in
+[gpg]
+	format = ssh
+[commit]
+	gpgSign = true
+[init]
+	defaultBranch = main
+[diff]
+	algorithm = histogram
