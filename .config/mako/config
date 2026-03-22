@@ -1,0 +1,26 @@
+background-color=#111111
+text-color=#eeeeee
+border-color=#333333
+border-size=2
+border-radius=4
+default-timeout=5000
+font=JetBrains Mono Nerd 12
+width=350
+height=150
+margin=20
+padding=10
+
+[category=osd]
+anchor=top-right
+margin=20,20,0,0
+width=250
+padding=10
+border-radius=20
+border-size=2
+text-alignment=center
+format=<b>%s</b> %b
+background-color=#1a1a1d33
+border-color=#33ccffaa
+text-color=#ffffff
+progress-color=#33ccff66
+default-timeout=1500

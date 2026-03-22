@@ -1,0 +1,17 @@
+[manager]
+cwd = { fg = "blue" }
+hovered         = { fg = "black", bg = "lightblue" }
+preview_hovered = { underline = true }
+find_keyword    = { fg = "yellow", italic = true }
+find_position   = { fg = "magenta", bg = "reset", italic = true }
+marker_copied   = { fg = "green", bg = "green" }
+marker_cut      = { fg = "red", bg = "red" }
+marker_selected = { fg = "lightblue", bg = "lightblue" }
+
+[status]
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "darkgray", bg = "darkgray" }
+mode_normal = { bg = "blue", fg = "black", bold = true }
+mode_select = { bg = "green", fg = "black", bold = true }
+mode_unset  = { bg = "magenta", fg = "black", bold = true }

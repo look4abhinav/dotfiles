@@ -108,7 +108,7 @@ alias ca='clear; :> ~/.zsh_history'
 alias path='print -l -- ${(s/:/)PATH}'
 alias zrc='nv ~/.zshrc; source ~/.zshrc'
 alias dps='docker ps --format "table {{.Names}}\t{{.Status}}"'
-alias upy='uv self update; uv tool install ruff@latest; uv tool install ty@latest;'
+alias upy='uv self update; uv tool install ruff@latest; uv tool install ty@latest'
 alias pyc='find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null && find . -type d -name .ruff_cache -exec rm -rf {} + 2>/dev/null'
 
 # Suffix Aliases

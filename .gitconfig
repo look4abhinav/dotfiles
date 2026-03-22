@@ -39,7 +39,7 @@
 [user]
 	name = Abhinav Srivastava
 	email = look4abhinav@outlook.in
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4psPaRdVqyIiEcLPwmD19uRQY54RMgi55Kj2FylIdu look4abhinav@outlook.in
+	signingkey = /home/abhinav/.ssh/id_ed25519.pub
 [gpg]
 	format = ssh
 [commit]
