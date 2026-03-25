@@ -39,27 +39,31 @@ case $1 in
         fi
         ;;
     bright_up)
-        brightnessctl set 5%+
+        current=$(get_brightness)
+        if [ "$current" -lt 5 ]; then
+            brightnessctl set 5%
+        else
+            brightnessctl set 5%+
+        fi
         notify_bar "  Brightness" "$(get_brightness)"
         ;;
     bright_down)
-        brightnessctl set 5%-
+        current=$(get_brightness)
+        if [ "$current" -le 5 ]; then
+            brightnessctl set 1%
+        else
+            brightnessctl set 5%-
+        fi
         notify_bar "  Brightness" "$(get_brightness)"
-        ;;
-    kbd_up)
-        brightnessctl -d '*kbd_backlight*' set 5%+
-        notify_text "  Keyboard" "Up"
-        ;;
-    kbd_down)
-        brightnessctl -d '*kbd_backlight*' set 5%-
-        notify_text "  Keyboard" "Down"
         ;;
     caps)
         sleep 0.1
         if hyprctl devices -j | grep -q '"capsLock": true'; then
-            notify_text "  Caps Lock" "ON"
+            # -h int:value:100 completely fills the background with your cyan color
+            notify-send -c osd -h string:x-canonical-private-synchronous:sys-notify -h int:value:100 -u low "  Caps Lock" "ON"
         else
-            notify_text "  Caps Lock" "OFF"
+            # -h int:value:0 empties the background
+            notify-send -c osd -h string:x-canonical-private-synchronous:sys-notify -h int:value:0 -u low "  Caps Lock" "OFF"
         fi
         ;;
 esac

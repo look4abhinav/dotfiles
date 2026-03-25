@@ -1,26 +1,48 @@
-background-color=#111111
-text-color=#eeeeee
-border-color=#333333
-border-size=2
-border-radius=4
-default-timeout=5000
-font=JetBrains Mono Nerd 12
-width=350
-height=150
-margin=20
-padding=10
+# ==========================================
+# GLOBAL SETTINGS 
+# ==========================================
+font=JetBrains Mono Nerd Font 12
 
+# Shape and Spacing
+width=350
+margin=20
+padding=15
+border-radius=16
+border-size=2
+
+# Frosted Glass Colors 
+background-color=#1a1a1d99
+border-color=#33ccffaa
+text-color=#ffffff
+
+# Icon Handling 
+icon-location=left
+max-icon-size=48
+
+# Format: Bold Title, line break, then the message body
+format=<b>%s</b>\n%b
+default-timeout=5000
+
+
+# ==========================================
+# OSD SETTINGS (Volume & Brightness Pill)
+# ==========================================
 [category=osd]
 anchor=top-right
 margin=20,20,0,0
 width=250
-padding=10
+padding=10,20
 border-radius=20
 border-size=2
 text-alignment=center
+
+# Format: Forces the OSD back onto a single line
 format=<b>%s</b> %b
-background-color=#1a1a1d33
+
+# OSD Specific Colors 
+background-color=#1a1a1d80
 border-color=#33ccffaa
 text-color=#ffffff
 progress-color=#33ccff66
+
 default-timeout=1500

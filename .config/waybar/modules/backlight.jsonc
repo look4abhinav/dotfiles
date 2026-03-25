@@ -1,0 +1,34 @@
+{
+	"backlight": {
+		// "interval":
+		"format": "{icon} {percent}%",
+		"format-icons": [
+			"", "", "", "", "", "", "", "", ""
+		],
+		"min-length": 7,
+		"max-length": 7,
+		// "align":
+		// "justify":
+		// "rotate":
+		// "states":
+		// "on-click":
+		// "on-click-middle":
+		// "on-click-right":
+		// "on-update":
+		// "on-scroll-up": "~/.config/waybar/scripts/backlight up",
+		// "on-scroll-down": "~/.config/waybar/scripts/backlight down",
+        "on-scroll-up": "~/.config/hypr/scripts/sys_info.sh bright_up",
+        "on-scroll-down": "~/.config/hypr/scripts/sys_info.sh bright_down",
+		// "smooth-scrolling-threshold":
+		// "reverse-scrolling":
+		// "reverse-mouse-scrolling":
+		// "scroll-step":
+		// "min-brightness":
+		// "tooltip":
+		"tooltip-format": "Screen Brightness"
+		// "menu":
+		// "menu-file":
+		// "menu-actions":
+		// "expand":
+	}
+}
