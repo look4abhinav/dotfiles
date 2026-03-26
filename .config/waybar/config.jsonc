@@ -16,14 +16,20 @@
 		"custom/user",
 		"custom/left_div#1",
 		"hyprland/workspaces",
+		"custom/right_div#1",
+		"custom/left_div#1",
+        "network",
+		"custom/right_div#1",
+		"custom/left_div#1",
+		"bluetooth",
 		"custom/right_div#1"
 		// "hyprland/window"
 	],
 	"modules-center": [
 		// "hyprland/language",
-		"custom/left_div#2",
+		// "custom/left_div#2",
 		// "temperature",
-		"custom/left_div#3",
+		"custom/left_div#1",
 		"memory",
 		"custom/left_div#4",
 		"cpu",
@@ -36,11 +42,9 @@
 		"clock#time",
 		"custom/right_div#3",
 		"clock#date",
-		"custom/right_div#4",
-		"network",
-		"bluetooth",
+		"custom/right_div#1"
 		// "custom/update",
-		"custom/right_div#5"
+		// "custom/right_div#5"
 	],
 	"modules-right": [
 		// "mpris",
