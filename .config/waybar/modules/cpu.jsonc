@@ -5,8 +5,8 @@
 		"format-warning": "󰀨 {usage}%",
 		"format-critical": "󰀨 {usage}%",
 		// "format-icons":
-		"min-length": 7,
-		"max-length": 7,
+		"min-length": 8,
+		"max-length": 8,
 		// "align":
 		// "justify":
 		// "rotate":

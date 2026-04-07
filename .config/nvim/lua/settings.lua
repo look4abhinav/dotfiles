@@ -23,7 +23,11 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
-vim.opt.guicursor = "n-v-c-i:ver25"
+
+vim.opt.virtualedit = "onemore"
+vim.opt.guicursor =
+	"n-v-c:block-blinkwait300-blinkon200-blinkoff150,i-ci-ve:ver25-blinkwait300-blinkon200-blinkoff150,r-cr:hor20-blinkwait300-blinkon200-blinkoff150,o:hor50-blinkwait300-blinkon200-blinkoff150"
+
 -- [2] CLIPBOARD (OSC 52)
 -- --------------------------------------------------------------------------
 vim.g.clipboard = {

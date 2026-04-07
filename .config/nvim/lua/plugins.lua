@@ -154,6 +154,27 @@ require("lazy").setup({
 			format_on_save = { timeout_ms = 500, lsp_fallback = true },
 		},
 	},
+
+	-- 5.8 CURSOR TRAIL ANIMATIONS
+	{
+		"sphamba/smear-cursor.nvim",
+		opts = {
+			stiffness = 0.9,
+			trailing_stiffness = 0.9,
+			distance_stop_animating = 0.5,
+		},
+	},
+
+	-- 5.9 HIGHLIGHT CURRENT WORD
+	{
+		"echasnovski/mini.cursorword",
+		version = "*",
+		config = function()
+			require("mini.cursorword").setup({
+				delay = 100,
+			})
+		end,
+	},
 }, {
 	rocks = { enabled = false },
 })

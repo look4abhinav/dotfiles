@@ -12,15 +12,15 @@
 @import "styles/states.css";
 
 .module {
-	margin-bottom: -1px;
+	margin: 0;
 }
 
 #waybar {
-	background-color: @outline;
+	background-color: transparent;
 }
 #waybar > box {
-	margin: 4px;
-	background-color: @main-bg;
+	margin: 0px 4px;
+	background-color: transparent;
 }
 
 button {
@@ -40,4 +40,37 @@ tooltip {
 }
 tooltip > box {
 	padding: 0 6px;
+}
+
+/* Premium detached shapes */
+#workspaces,
+#window,
+#network,
+#bluetooth,
+#custom-update,
+#temperature,
+#memory,
+#cpu,
+#custom-distro,
+#idle_inhibitor,
+#clock,
+#pulseaudio,
+#pulseaudio.output,
+#pulseaudio.input,
+#wireplumber,
+#backlight,
+#battery,
+#custom-power,
+#custom-user {
+    border-radius: 12px;
+    padding: 0 10px;
+    margin: 2px 0;
+}
+
+#workspaces {
+    padding: 0 4px;
+}
+
+#custom-power {
+    padding: 0 16px;
 }

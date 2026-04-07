@@ -6,8 +6,8 @@
 			"deactivated": "󰈉"
 		},
 		// "rotate":
-		"min-length": 3,
-		"max-length": 3,
+		"min-length": 2,
+		"max-length": 2,
 		// "align":
 		// "justify":
 		// "on-click":

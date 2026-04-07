@@ -45,16 +45,16 @@
 
 /* Module colors */
 
-@define-color workspaces     @mantle;
-@define-color temperature    @mantle;
-@define-color memory         @base;
-@define-color cpu            @surface0;
-@define-color time           @surface0;
-@define-color date           @base;
-@define-color tray           @mantle;
-@define-color volume         @mantle;
-@define-color backlight      @base;
-@define-color battery        @surface0;
+@define-color workspaces     alpha(@mantle, 0.7);
+@define-color temperature    alpha(@mantle, 0.7);
+@define-color memory         alpha(@base, 0.7);
+@define-color cpu            alpha(@surface0, 0.7);
+@define-color time           alpha(@surface0, 0.7);
+@define-color date           alpha(@base, 0.7);
+@define-color tray           alpha(@mantle, 0.7);
+@define-color volume         alpha(@mantle, 0.7);
+@define-color backlight      alpha(@base, 0.7);
+@define-color battery        alpha(@surface0, 0.7);
 
 /* State colors */
 
