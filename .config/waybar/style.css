@@ -1,76 +1,127 @@
-@import "theme.css";
+@define-color highlight rgba(117, 241, 250, 1);
+@define-color dark-9 rgba(24, 24, 27, 1);
+@define-color dark-8 rgba(39, 39, 42, 1);
+@define-color dark-7 rgba(63, 63, 70, 1);
+@define-color dark-6 rgba(82, 82, 91, 1);
+@define-color dark-5 rgba(113, 113, 122, 1);
 
 * {
-	all: initial; /* Reset GTK theme */
-	color: @main-fg;
+  /* `otf-font-awesome` is required to be installed for icons */
+  font-family: JetBrainsMono Nerd Font Propo;
+  font-size: 13px;
 }
 
-@import "styles/fonts.css";
-@import "styles/modules-center.css";
-@import "styles/modules-left.css";
-@import "styles/modules-right.css";
-@import "styles/states.css";
-
-.module {
-	margin: 0;
+window#waybar {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
 }
 
-#waybar {
-	background-color: transparent;
-}
-#waybar > box {
-	margin: 0px 4px;
-	background-color: transparent;
+#workspaces button {
+  padding: 2px;
+  margin: 4px 0px 4px 4px;
+  background: transparent;
+  border-radius: 4px;
+  color: white;
+  transition: all 0.3s ease;
 }
 
-button {
-	border-radius: 16px;
-	min-width: 16px;
-	padding: 0 10px;
+#workspaces button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
-button:hover {
-	background-color: @hover-bg;
-	color: @hover-fg;
+
+#workspaces button.active {
+  background: @highlight;
+  color: black;
+  font-weight: 700;
+}
+
+#submap,
+#battery,
+#bluetooth,
+#network,
+#cpu,
+#memory,
+#volume,
+#custom-power {
+  border-radius: 8px;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 4px 10px 4px 0px;
+}
+
+#submap,
+#workspaces button.urgent {
+  background: rgba(227, 81, 73, 1);
+  color: black;
+}
+
+#pulseaudio-slider {
+  padding: 0px;
+  margin: 0px;
+  margin-left: 8px;
+}
+
+#pulseaudio-slider slider {
+  all: unset;
+  min-height: 0;
+  min-width: 0;
+  opacity: 0;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+  min-height: 8px;
+  min-width: 75px;
+  border-radius: 5px;
+  background: @dark-7;
+}
+
+#pulseaudio-slider highlight {
+  min-width: 10px;
+  border-radius: 5px;
+  background: @highlight;
+}
+
+#media {
+  color: #42ff9f;
+  margin: 4px 20px 4px 15px;
+}
+
+#custom-media-animation {
+  font-size: 13px;
+  margin-right: 10px;
+}
+
+#custom-media-now-playing {
+  margin-right: 10px;
+}
+
+#custom-media-time {
+  color: @dark-5;
+  font-size: 14px;
 }
 
 tooltip {
-	border: 2px solid @main-br;
-	border-radius: 10px;
-	background-color: @main-bg;
-}
-tooltip > box {
-	padding: 0 6px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
 }
 
-/* Premium detached shapes */
-#workspaces,
-#window,
-#network,
-#bluetooth,
-#custom-update,
-#temperature,
-#memory,
-#cpu,
-#custom-distro,
-#idle_inhibitor,
-#clock,
-#pulseaudio,
-#pulseaudio.output,
-#pulseaudio.input,
-#wireplumber,
-#backlight,
-#battery,
-#custom-power,
-#custom-user {
-    border-radius: 12px;
-    padding: 0 10px;
-    margin: 2px 0;
-}
-
-#workspaces {
-    padding: 0 4px;
+tooltip label {
+  color: white;
 }
 
 #custom-power {
-    padding: 0 16px;
+  color: rgba(227, 81, 73, 1);
+  padding: 3px 12px;
+  margin-right: 4px;
+}
+
+#custom-power:hover {
+  background: rgba(227, 81, 73, 1);
+  color: black;
 }

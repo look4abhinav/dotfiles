@@ -1,0 +1,48 @@
+* {
+    background-image: none;
+    box-shadow: none;
+}
+
+window {
+    background-color: rgba(0, 0, 0, 0.3); /* More transparent background */
+}
+
+button {
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.03); /* Soothing light glass */
+    font-family: "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 20px;
+    background-repeat: no-repeat;
+    background-position: center 25%;
+    background-size: 35%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+button:focus, button:active, button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Soft white highlight */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); /* Soft glow */
+    outline-style: none;
+    color: rgba(255, 255, 255, 1);
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.png"));
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/icons/suspend.png"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.png"));
+}
