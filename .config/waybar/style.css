@@ -192,6 +192,10 @@ tooltip label {
     color: #42ff9f;
 }
 
+#clock {
+    font-weight: bold;
+}
+
 #cpu.warning {
     color: #f0a040;
 }

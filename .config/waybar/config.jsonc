@@ -73,7 +73,7 @@
     "on-click": "~/.config/waybar/custom_modules/wifi-menu.sh",
   },
   "clock": {
-    "format": "󰥔 {:%a, %d. %b %I:%M %p}",
+    "format": "{:%A | %d %b %Y | %H:%M}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "format": {
