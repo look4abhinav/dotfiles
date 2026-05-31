@@ -1,55 +1,62 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# =============================================================================
+# 1. P10K INSTANT PROMPT
+# =============================================================================
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-if [[ -f "/opt/homebrew/bin/brew" ]] then
-  # If you're using macOS, you'll want this enabled
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-# Set the directory we want to store zinit and plugins
+# =============================================================================
+# 2. ZINIT PLUGIN MANAGER SETUP
+# =============================================================================
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-
-# Download Zinit, if it's not there yet
 if [ ! -d "$ZINIT_HOME" ]; then
    mkdir -p "$(dirname $ZINIT_HOME)"
    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
-# Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
-
-# Add in Powerlevel10k
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-# Add in zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
+# =============================================================================
+# 3. PLUGINS & SNIPPETS
+# =============================================================================
+zinit wait lucid for \
+    OMZL::git.zsh \
+    OMZP::git \
+    OMZP::gh \
+    OMZP::sudo \
+    OMZP::archlinux \
+    OMZP::aws \
+    OMZP::python \
+    OMZP::command-not-found
 
-# Add in snippets
-zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git
-zinit snippet OMZP::gh
-zinit snippet OMZP::sudo
-zinit snippet OMZP::archlinux
-zinit snippet OMZP::aws
-zinit snippet OMZP::python
-zinit snippet OMZP::command-not-found
+zinit wait lucid for \
+    zsh-users/zsh-completions \
+    zsh-users/zsh-autosuggestions \
+    Aloxaf/fzf-tab \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zsh-users/zsh-syntax-highlighting
 
-# Load completions
-autoload -Uz compinit && compinit
+# =============================================================================
+# 4. COMPLETIONS
+# =============================================================================
+autoload -Uz compinit
+if [[ $(date +'%j') != $(stat -c '%j' ~/.zcompdump 2>/dev/null) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
 autoload zmv
-zinit cdreplay -q
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# =============================================================================
+# 5. THEME / PROMPT
+# =============================================================================
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Keybindings
+# =============================================================================
+# 6. KEYBINDINGS
+# =============================================================================
 bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
@@ -58,7 +65,9 @@ bindkey ' ' magic-space
 bindkey -s '^Ga' 'git add .'
 bindkey -s '^Gc' 'git commit -m ""\C-b'
 
-# Hook for cd
+# =============================================================================
+# 7. HOOKS & FUNCTIONS
+# =============================================================================
 chpwd() {
     emulate -L zsh
     if [[ -n "$VIRTUAL_ENV" ]]; then
@@ -74,59 +83,59 @@ chpwd() {
         if [[ "$VIRTUAL_ENV" == "$absolute_venv_path" ]]; then
             return
         fi
-        
         source "$venv_name/bin/activate"
     fi
 }
 
-# History
-HISTSIZE=50
+# =============================================================================
+# 8. HISTORY SETTINGS
+# =============================================================================
+HISTSIZE=10000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
+setopt appendhistory sharehistory hist_ignore_space hist_ignore_all_dups hist_save_no_dups hist_ignore_dups hist_find_no_dups
 
-# Completion styling
+# =============================================================================
+# 9. COMPLETION STYLING
+# =============================================================================
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -alh $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -alh $realpath'
 
-# Aliases
+# =============================================================================
+# 10. ALIASES
+# =============================================================================
 alias nv='nvim'
 alias c='clear'
 alias ls='eza -alh'
 alias up='paru -Syu'
-alias ca=' :> ~/.zsh_history; exit'
 alias path='print -l -- ${(s/:/)PATH}'
 alias zrc='nv ~/.zshrc; source ~/.zshrc'
-alias dps='docker ps --format "table {{.Names}}\t{{.Status}}"'
-alias upy='uv self update; uv tool install ruff@latest; uv tool install ty@latest'
-alias pyc='find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null && find . -type d -name .ruff_cache -exec rm -rf {} + 2>/dev/null'
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
+alias pyc='fd -H -I "^(__pycache__|\.ruff_cache|\.pytest_cache|\.mypy_cache|\.ipynb_checkpoints|\.eggs|\.tox)$|\.(egg-info|egg|pyc|pyo)$" -X rm -rf'
 
-# Suffix Aliases
-alias -s py='nvim'
-alias -s env='bat'
-alias -s yml='bat'
-alias -s yaml='bat'
-alias -s yaml='md'
+# =============================================================================
+# 11. CACHED SHELL INTEGRATIONS (fzf, zoxide, uv)
+# =============================================================================
+EVAL_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_evals"
+mkdir -p "$EVAL_CACHE_DIR"
 
-# Shell integrations
-eval "$(fzf --zsh)"
-eval "$(zoxide init --cmd cd zsh)"
+if [[ ! -f "$EVAL_CACHE_DIR/fzf.zsh" ]]; then fzf --zsh > "$EVAL_CACHE_DIR/fzf.zsh"; fi
+source "$EVAL_CACHE_DIR/fzf.zsh"
 
-# Opencode
-if [[ -d "/home/abhinav/.opencode/bin" ]]; then
-  export PATH="$PATH:/home/abhinav/.opencode/bin"
+if [[ ! -f "$EVAL_CACHE_DIR/zoxide.zsh" ]]; then zoxide init --cmd cd zsh > "$EVAL_CACHE_DIR/zoxide.zsh"; fi
+source "$EVAL_CACHE_DIR/zoxide.zsh"
+
+if [[ ! -f "$EVAL_CACHE_DIR/uv.zsh" ]]; then uv generate-shell-completion zsh > "$EVAL_CACHE_DIR/uv.zsh"; fi
+source "$EVAL_CACHE_DIR/uv.zsh"
+
+# =============================================================================
+# 12. PATH & ENVIRONMENT VARIABLES
+# =============================================================================
+if [[ -d "$HOME/.opencode/bin" ]]; then
+  export PATH="$PATH:$HOME/.opencode/bin"
 fi
 
-# UV Setup
-. "$HOME/.local/bin/env"
-eval "$(uv generate-shell-completion zsh)"

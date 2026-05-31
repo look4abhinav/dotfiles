@@ -1,1 +1,65 @@
-.config/tmux/plugins/
+# ── OS junk ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ── Editor / IDE ──────────────────────────────────────────
+*.sublime-workspace
+*.sublime-project
+.idea/
+.vscode/
+*.code-workspace
+
+# ── NeoVim ────────────────────────────────────────────────
+**/nvim/plugin/packer_compiled.lua
+**/nvim/spell/*.add
+*.spl
+
+# ── Shell history / zsh ──────────────────────────────────
+.zsh_history
+.zhistory
+.zcompdump*
+.lesshst
+
+# ── Cache & temp ──────────────────────────────────────────
+cache/
+*.cache
+__pycache__/
+*.pyc
+*.pyo
+
+# ── Compiled / generated ──────────────────────────────────
+*.o
+*.so
+*.dylib
+*.bin
+
+# ── Secrets & tokens ──────────────────────────────────────
+.env
+.env.*
+*.secret
+*.token
+credentials
+secrets/
+
+# ── Node / Python / language runtimes ─────────────────────
+node_modules/
+.pnpm-store/
+.venv/
+venv/
+env/
+
+# ── Waybar compiled/logs ──────────────────────────────────
+**/waybar/waybar.log
+
+# ── GNU Stow ──────────────────────────────────────────────
+# If you ever accidentally run stow without --target:
+usr/
+
+# ── Misc dotfile artifacts ────────────────────────────────
+*.bak
+*.orig
+*.old
+.bak/
