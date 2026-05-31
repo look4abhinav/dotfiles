@@ -7,9 +7,46 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "language_models": {
+    "openai_compatible": {
+      "Bluesmind": {
+        "api_url": "https://api.bluesminds.com/v1",
+        "available_models": [
+          {
+            "name": "accounts/fireworks/models/deepseek-v4-pro",
+            "max_tokens": 1000000,
+            "max_output_tokens": 1000000,
+            "max_completion_tokens": 1000000,
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": true,
+              "chat_completions": true,
+              "interleaved_reasoning": false
+            }
+          }
+        ]
+      }
+    }
+  },
+  "cli_default_open_behavior": "existing_window",
   "agent": {
+    "default_profile": "write",
+    "default_model": {
+      "provider": "Bluesmind",
+      "model": "accounts/fireworks/models/deepseek-v4-pro",
+      "enable_thinking": false
+    },
     "dock": "left",
-    "favorite_models": [],
+    "favorite_models": [
+      {
+        "provider": "google",
+        "model": "gemini-3.1-pro-preview",
+        "enable_thinking": true,
+        "effort": "high"
+      }
+    ],
     "model_parameters": []
   },
   "collaboration_panel": {

@@ -1,74 +1,158 @@
 {
-	"include": [
-		"~/.config/waybar/modules/*.jsonc",
-		"~/.config/waybar/modules/custom/*.jsonc",
-		"~/.config/waybar/modules/hyprland/*.jsonc"
-
-		// Modules that are not included by default:
-		// "~/.config/waybar/modules/extras/*.jsonc"
-	],
-
-	/*------------
-	    Layout
-	------------*/
-
-	"modules-left": [
-		"custom/user",
-		"hyprland/workspaces",
-        "network",
-		"bluetooth"
-		// "hyprland/window"
-	],
-	"modules-center": [
-		// "hyprland/language",
-		//
-		// "temperature",
-		"memory",
-		"cpu",
-		"idle_inhibitor",
-		"clock#time",
-		"clock#date"
-		// "custom/update"
-		//
-	],
-	"modules-right": [
-		// "mpris",
-		"pulseaudio#output",
-		"pulseaudio#input",
-		"backlight",
-		"battery",
-		"custom/power"
-	],
-
-	/*-------------
-	    Options
-	-------------*/
-
-	// "expand-center":
-	// "expand-left":
-	// "expand-right":
-	"layer": "top",
-	// "output":
-	// "position":
-	"height": 0,
-	"width": 0,
-	"margin": 0,
-	// "margin-top":
-	// "margin-left":
-	// "margin-bottom":
-	// "margin-right":
-	// "no-center":
-	"spacing": 6,
-	// "name":
-	"mode": "dock",
-	// "start_hidden":
-	// "modifier-reset":
-	// "exclusive":
-	// "fixed-center":
-	// "passthrough":
-	// "ipc":
-	// "id":
-	"reload_style_on_change": true
-	// "on-sigusr1":
-	// "on-sigusr2":
+  "layer": "top",
+  "modules-left": ["hyprland/workspaces", "group/system-stats"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "hyprland/submap",
+    "group/volume",
+    "group/brightness",
+    "battery",
+    "bluetooth",
+    "network",
+    "custom/power",
+  ],
+  "hyprland/workspaces": {
+    "persistent-workspaces": {
+      "*": [1, 2, 3, 4, 5],
+    },
+  },
+  "hyprland/window": {
+    "max-length": 50,
+  },
+  "battery": {
+    "interval": 60,
+    "states": {
+      "warning": 35,
+      "critical": 15,
+    },
+    "format": "{icon} {capacity}%",
+    "format-icons": {
+      "default": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+      "charging": ["󰢟", "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+    },
+  },
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂯",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "on-click": "exec ghostty --title=bluetooth -e bluetui",
+  },
+  "cpu": {
+    "interval": 10,
+    "states": {
+      "warning": 70,
+      "critical": 90,
+    },
+    "format": " {}%",
+    "max-length": 10,
+    "on-click": "exec ghostty --title=btop -e btop",
+  },
+  "memory": {
+    "interval": 30,
+    "states": {
+      "warning": 70,
+      "critical": 90,
+    },
+    "format": " {percentage}%",
+    "tooltip-format": "{used:0.1f}G/{total:0.1f}G used",
+    "on-click": "exec ghostty --title=htop -e htop",
+  },
+  "network": {
+    "format": "",
+    "format-wifi": "󰤨",
+    "format-ethernet": "󰈁",
+    "format-disconnected": "󰤮", //An empty format will hide the module.
+    "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+    "tooltip-format-ethernet": "{ifname} ",
+    "tooltip-format-disconnected": "󰖪",
+    "max-length": 50,
+    "on-click": "~/.config/waybar/custom_modules/wifi-menu.sh",
+  },
+  "clock": {
+    "format": "{:%A | %d %b %Y | %H:%M}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "format": {
+        "today": "<span color='#75f1fa'><b>{}</b></span>",
+      },
+    },
+    "on-click": "exec chromium --app=https://calendar.google.com",
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "default": ["", ""],
+    },
+    "scroll-step": 1,
+    "ignored-sinks": ["Easy Effects Sink"],
+    "on-click": "pavucontrol",
+  },
+  "pulseaudio/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal",
+  },
+  "group/volume": {
+    "orientation": "horizontal",
+    "modules": ["pulseaudio", "pulseaudio/slider"],
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃞", "󰃝", "󰃠"],
+    "on-click": "brightnessctl set +10%",
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set -5%",
+  },
+  "backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal",
+  },
+  "group/brightness": {
+    "orientation": "horizontal",
+    "modules": ["backlight", "backlight/slider"],
+  },
+  "group/system-stats": {
+    "orientation": "horizontal",
+    "modules": ["custom/spacer-left", "cpu", "memory", "custom/spacer-right"],
+  },
+  "custom/spacer-left": {
+    "format": "    ",
+    "interval": "once",
+    "tooltip": false,
+  },
+  "custom/spacer-right": {
+    "format": "  ",
+    "interval": "once",
+    "tooltip": false,
+  },
+  // -- Music section (commented out) --
+  // "custom/media-now-playing": {
+  //   "exec": "~/.config/waybar/custom_modules/media/media-now-playing.sh",
+  //   "escape": true,
+  //   "tooltip": false,
+  //   "on-click": "playerctl play-pause",
+  //   "on-click-middle": "playerctl previous",
+  //   "on-click-right": "playerctl next"
+  // },
+  // "custom/media-animation": {
+  //   "exec": "~/.config/waybar/custom_modules/media/media-animation.sh",
+  //   "tooltip": false
+  // },
+  // "custom/media-time": {
+  //   "exec": "~/.config/waybar/custom_modules/media/media-time.sh",
+  //   "escape": true,
+  //   "interval": 1,
+  //   "tooltip": false
+  // },
+  "custom/power": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "wlogout -b 3 -T 300 -B 300 -L 150 -R 150",
+  },
 }

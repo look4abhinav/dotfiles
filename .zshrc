@@ -104,7 +104,7 @@ alias nv='nvim'
 alias c='clear'
 alias ls='eza -alh'
 alias up='paru -Syu'
-alias ca='clear; :> ~/.zsh_history'
+alias ca=' :> ~/.zsh_history; exit'
 alias path='print -l -- ${(s/:/)PATH}'
 alias zrc='nv ~/.zshrc; source ~/.zshrc'
 alias dps='docker ps --format "table {{.Names}}\t{{.Status}}"'
@@ -122,7 +122,11 @@ alias -s yaml='md'
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
+# Opencode
+if [[ -d "/home/abhinav/.opencode/bin" ]]; then
+  export PATH="$PATH:/home/abhinav/.opencode/bin"
+fi
+
 # UV Setup
 . "$HOME/.local/bin/env"
 eval "$(uv generate-shell-completion zsh)"
-
