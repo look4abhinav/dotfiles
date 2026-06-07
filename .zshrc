@@ -112,6 +112,7 @@ alias nv='nvim'
 alias c='clear'
 alias ls='eza -alh'
 alias up='paru -Syu'
+alias upy='uv self update; uv tool upgrade --all'
 alias path='print -l -- ${(s/:/)PATH}'
 alias zrc='nv ~/.zshrc; source ~/.zshrc'
 alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
@@ -139,3 +140,5 @@ if [[ -d "$HOME/.opencode/bin" ]]; then
   export PATH="$PATH:$HOME/.opencode/bin"
 fi
 
+# opencode
+export PATH=/home/abhinav/.opencode/bin:$PATH
