@@ -41,17 +41,18 @@
     "on-click": "exec ghostty --title=bluetooth -e bluetui",
   },
   "cpu": {
-    "interval": 10,
+    "interval": 1,
     "states": {
       "warning": 70,
       "critical": 90,
     },
-    "format": " {}%",
+    "format": " {usage}%",
+    "tooltip-format": " {usage}%  (load {load})",
     "max-length": 10,
     "on-click": "exec ghostty --title=btop -e btop",
   },
   "memory": {
-    "interval": 30,
+    "interval": 2,
     "states": {
       "warning": 70,
       "critical": 90,
