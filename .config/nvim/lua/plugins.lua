@@ -214,6 +214,9 @@ require("lazy").setup({
 			require("mini.cursorword").setup({})
 		end,
 	},
+
+	-- Seamless pane nav: Ctrl-h/j/k/l crosses nvim splits ↔ tmux panes
+	{ "christoomey/vim-tmux-navigator", lazy = false },
 }, {
 	rocks = { enabled = false },
 })
