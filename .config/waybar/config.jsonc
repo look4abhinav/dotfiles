@@ -58,7 +58,7 @@
       "critical": 90,
     },
     "format": " {percentage}%",
-    "tooltip-format": "{used:0.1f}G/{total:0.1f}G used",
+    "tooltip-format": "{used:0.1f}G/{total:0.1f}G used\nSwap: {swapUsed:0.1f}G/{swapTotal:0.1f}G ({swapPercentage}%)",
     "on-click": "exec ghostty --title=htop -e htop",
   },
   "network": {
