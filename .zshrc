@@ -139,6 +139,3 @@ source "$EVAL_CACHE_DIR/uv.zsh"
 if [[ -d "$HOME/.opencode/bin" ]]; then
   export PATH="$PATH:$HOME/.opencode/bin"
 fi
-
-# opencode
-export PATH=/home/abhinav/.opencode/bin:$PATH

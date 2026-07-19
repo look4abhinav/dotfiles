@@ -130,6 +130,10 @@ require("lazy").setup({
 		version = "*",
 		opts = {
 			sources = { default = { "lsp", "path", "buffer" } },
+			signature = {
+				enabled = true,
+				window = { border = "rounded", show_documentation = true },
+			},
 			keymap = {
 				["<CR>"] = { "accept", "fallback" },
 				["<Tab>"] = { "select_next", "fallback" },

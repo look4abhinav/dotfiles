@@ -33,3 +33,6 @@ palette = 15=#bac2de
 font-size = 15
 font-thicken = true
 gtk-titlebar = false
+
+keybind = ctrl+tab=unbind
+keybind = ctrl+shift+tab=unbind
