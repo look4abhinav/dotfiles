@@ -115,25 +115,6 @@ window#waybar {
     min-width: 10px;
 }
 
-#media {
-    color: #42ff9f;
-    margin: 4px 20px 4px 15px;
-}
-
-#custom-media-animation {
-    font-size: 13px;
-    margin-right: 10px;
-}
-
-#custom-media-now-playing {
-    margin-right: 10px;
-}
-
-#custom-media-time {
-    color: @dark-5;
-    font-size: 14px;
-}
-
 tooltip {
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);

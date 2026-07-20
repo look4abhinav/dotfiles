@@ -221,6 +221,14 @@ require("lazy").setup({
 
 	-- Seamless pane nav: Ctrl-h/j/k/l crosses nvim splits ↔ tmux panes
 	{ "christoomey/vim-tmux-navigator", lazy = false },
+
+	-- Render markdown: styled headings, lists, tables, code blocks, etc.
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+		ft = { "markdown" },
+		opts = {},
+	},
 }, {
 	rocks = { enabled = false },
 })

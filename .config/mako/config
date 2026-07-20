@@ -1,7 +1,7 @@
 # ==========================================
-# GLOBAL SETTINGS 
+# GLOBAL SETTINGS
 # ==========================================
-font=JetBrains Mono Nerd Font 12
+font=JetBrainsMono Nerd Font 12
 
 # Shape and Spacing
 width=350
@@ -10,12 +10,12 @@ padding=15
 border-radius=16
 border-size=2
 
-# Frosted Glass Colors 
+# Frosted Glass Colors
 background-color=#1a1a1d99
 border-color=#33ccffaa
 text-color=#ffffff
 
-# Icon Handling 
+# Icon Handling
 icon-location=left
 max-icon-size=48
 
@@ -39,7 +39,7 @@ text-alignment=center
 # Format: Forces the OSD back onto a single line
 format=<b>%s</b> %b
 
-# OSD Specific Colors 
+# OSD Specific Colors
 background-color=#1a1a1d80
 border-color=#33ccffaa
 text-color=#ffffff

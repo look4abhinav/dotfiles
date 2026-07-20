@@ -9,30 +9,8 @@
   {
     "context": "Workspace",
     "bindings": {
-      // "shift shift": "file_finder::Toggle"
-    },
-  },
-  {
-    "context": "Editor && vim_mode == insert",
-    "bindings": {
-      // "j k": "vim::NormalBefore"
-    },
-  },
-  {
-    "context": "Workspace",
-    "bindings": {
       "ctrl-r": ["task::Spawn", { "task_name": "Run Python File" }],
-    },
-  },
-  {
-    "context": "Workspace",
-    "bindings": {
-      "ctrl-alt-b": "workspace::ToggleLeftDock"
-    }
-  },
-  {
-    "context": "Workspace",
-    "bindings": {
+      "ctrl-alt-b": "workspace::ToggleLeftDock",
       "ctrl-b": "workspace::ToggleRightDock"
     }
   }

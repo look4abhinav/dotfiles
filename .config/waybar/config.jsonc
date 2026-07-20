@@ -16,9 +16,6 @@
       "*": [1, 2, 3, 4, 5],
     },
   },
-  "hyprland/window": {
-    "max-length": 50,
-  },
   "battery": {
     "interval": 60,
     "states": {
@@ -132,25 +129,6 @@
     "interval": "once",
     "tooltip": false,
   },
-  // -- Music section (commented out) --
-  // "custom/media-now-playing": {
-  //   "exec": "~/.config/waybar/custom_modules/media/media-now-playing.sh",
-  //   "escape": true,
-  //   "tooltip": false,
-  //   "on-click": "playerctl play-pause",
-  //   "on-click-middle": "playerctl previous",
-  //   "on-click-right": "playerctl next"
-  // },
-  // "custom/media-animation": {
-  //   "exec": "~/.config/waybar/custom_modules/media/media-animation.sh",
-  //   "tooltip": false
-  // },
-  // "custom/media-time": {
-  //   "exec": "~/.config/waybar/custom_modules/media/media-time.sh",
-  //   "escape": true,
-  //   "interval": 1,
-  //   "tooltip": false
-  // },
   "custom/power": {
     "format": "",
     "tooltip": false,

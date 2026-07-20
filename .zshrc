@@ -26,7 +26,7 @@ zinit wait lucid for \
     OMZP::gh \
     OMZP::sudo \
     OMZP::archlinux \
-    OMZP::aws \
+    OMZP::uv \
     OMZP::python \
     OMZP::command-not-found
 
@@ -77,7 +77,7 @@ chpwd() {
         fi
     fi
 
-    local venv_name=".venv" 
+    local venv_name=".venv"
     if [[ -d "$venv_name" ]]; then
         local absolute_venv_path="$PWD/$venv_name"
         if [[ "$VIRTUAL_ENV" == "$absolute_venv_path" ]]; then

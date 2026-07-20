@@ -26,8 +26,6 @@
 	pruneTags = true
 [branch]
 	sort = -committerdate
-[dif]
-	algorithm = histogram
 [help]
 	autoCorrect = prompt
 [alias]

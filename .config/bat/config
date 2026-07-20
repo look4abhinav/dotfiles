@@ -12,6 +12,5 @@
 # Add mouse support (all modes)
 --pager="less -FR"
 
-# Use C++ syntax for .ino files
---map-syntax h:cpp
+# Treat .ignore files like .gitignore for highlighting
 --map-syntax .ignore:gitignore
