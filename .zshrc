@@ -136,6 +136,9 @@ source "$EVAL_CACHE_DIR/uv.zsh"
 # =============================================================================
 # 12. PATH & ENVIRONMENT VARIABLES
 # =============================================================================
+export EDITOR='nvim'
+
 if [[ -d "$HOME/.opencode/bin" ]]; then
   export PATH="$PATH:$HOME/.opencode/bin"
 fi
+
