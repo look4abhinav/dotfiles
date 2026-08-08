@@ -1,0 +1,8 @@
+profile docked {
+    output eDP-1 disable
+    output "*BenQ MA270U*" enable scale 1.666667
+}
+
+profile undocked {
+    output eDP-1 enable mode 2160x1440@60 position 0,0 scale 1.5
+}
