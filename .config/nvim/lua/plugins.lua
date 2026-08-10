@@ -1,6 +1,6 @@
 -- Plugins (Lazy.nvim)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
@@ -13,7 +13,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	-- Theme
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -27,10 +26,10 @@ require("lazy").setup({
 		end,
 	},
 
-	-- File tree
 	{
 		"nvim-tree/nvim-tree.lua",
 		dependencies = "nvim-tree/nvim-web-devicons",
+		cmd = { "NvimTreeToggle" },
 		config = function()
 			require("nvim-tree").setup({
 				sort_by = "case_sensitive",
@@ -41,11 +40,11 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Tabs / buffers
 	{
 		"akinsho/bufferline.nvim",
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
+		cmd = { "BufferLineCycleNext", "BufferLineCyclePrev" },
 		config = function()
 			require("bufferline").setup({
 				options = {
@@ -59,7 +58,6 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Syntax highlighting (Treesitter)
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
@@ -75,23 +73,14 @@ require("lazy").setup({
 				"markdown",
 				"markdown_inline",
 			})
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "python", "lua", "bash", "json", "yaml", "toml", "markdown" },
-				callback = function()
-					vim.treesitter.start()
-					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-					vim.wo.foldmethod = "expr"
-					vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-				end,
-			})
 		end,
 	},
 
-	-- LSP (ty: Python type-checker)
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
 			vim.lsp.config("ty", {
+				inlay_hints = { enabled = true },
 				settings = {
 					ty = {
 						diagnosticMode = "workspace",
@@ -119,12 +108,12 @@ require("lazy").setup({
 					map("<leader>ca", vim.lsp.buf.code_action, "Code action")
 					map("[d", vim.diagnostic.goto_prev, "Prev diagnostic")
 					map("]d", vim.diagnostic.goto_next, "Next diagnostic")
+					require("mini.clue").ensure_buf_triggers()
 				end,
 			})
 		end,
 	},
 
-	-- Completion (blink.cmp)
 	{
 		"saghen/blink.cmp",
 		version = "*",
@@ -145,7 +134,6 @@ require("lazy").setup({
 		},
 	},
 
-	-- Formatting (conform.nvim)
 	{
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
@@ -155,16 +143,50 @@ require("lazy").setup({
 				lua = { "stylua" },
 				toml = { "taplo" },
 				yaml = { "yamlfmt" },
+				sh = { "shfmt" },
+				bash = { "shfmt" },
 			},
 			format_on_save = { timeout_ms = 500, lsp_fallback = true },
 		},
 	},
 
-	-- Fuzzy finder (Telescope)
+	{
+		"mfussenegger/nvim-lint",
+		event = { "BufReadPre", "BufWritePost" },
+		config = function()
+			local lint = require("lint")
+			lint.linters_by_ft = {
+				sh = { "shellcheck" },
+				bash = { "shellcheck" },
+			}
+			vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
+				callback = function()
+					lint.try_lint()
+				end,
+			})
+		end,
+	},
+
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
 		dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons" },
+		keys = {
+			{ "<leader>sf", "<cmd>Telescope find_files<CR>", desc = "Search files" },
+			{ "<leader>sg", "<cmd>Telescope live_grep<CR>", desc = "Search in project (grep)" },
+			{
+				"<leader>sw",
+				function()
+					require("telescope.builtin").live_grep({
+						default_text = vim.fn.expand("<cword>"),
+					})
+				end,
+				desc = "Search word under cursor",
+			},
+			{ "<leader>sb", "<cmd>Telescope buffers<CR>", desc = "Search buffers" },
+			{ "<leader>sd", "<cmd>Telescope diagnostics<CR>", desc = "Search diagnostics" },
+			{ "<leader>ss", "<cmd>Telescope lsp_document_symbols<CR>", desc = "Search symbols" },
+			{ "<leader>sk", "<cmd>Telescope keymaps show_plug=false<CR>", desc = "Search keymaps" },
+		},
 		config = function()
 			require("telescope").setup({
 				defaults = {
@@ -188,7 +210,6 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Git (gitsigns): inline blame + hunk navigation
 	{
 		"lewis6991/gitsigns.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -200,7 +221,6 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Cursor trail animation
 	{
 		"sphamba/smear-cursor.nvim",
 		opts = {
@@ -210,19 +230,49 @@ require("lazy").setup({
 		},
 	},
 
-	-- Highlight current word
 	{
-		"echasnovski/mini.cursorword",
+		"nvim-mini/mini.cursorword",
 		version = "*",
-		config = function()
-			require("mini.cursorword").setup({})
+		opts = {},
+	},
+
+	{
+		"nvim-mini/mini.comment",
+		version = "*",
+		opts = {},
+	},
+
+	{
+		"nvim-mini/mini.surround",
+		version = "*",
+		opts = {},
+	},
+
+	{
+		"nvim-mini/mini.clue",
+		version = "*",
+		opts = function()
+			local clue = require("mini.clue")
+			return {
+				triggers = {
+					{ mode = { "n", "x" }, keys = "<Leader>" },
+					{ mode = { "n", "x" }, keys = "g" },
+					{ mode = { "n", "x" }, keys = "z" },
+					{ mode = "n", keys = "[" },
+					{ mode = "n", keys = "]" },
+					{ mode = "n", keys = "<C-w>" },
+				},
+				clues = {
+					clue.gen_clues.g(),
+					clue.gen_clues.z(),
+					clue.gen_clues.windows(),
+				},
+			}
 		end,
 	},
 
-	-- Seamless pane nav: Ctrl-h/j/k/l crosses nvim splits ↔ tmux panes
 	{ "christoomey/vim-tmux-navigator", lazy = false },
 
-	-- Render markdown: styled headings, lists, tables, code blocks, etc.
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },

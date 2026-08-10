@@ -6,15 +6,17 @@ vim.g.loaded_python3_provider = 0
 
 vim.g.mapleader = " "
 
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.scrolloff = 8
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.updatetime = 250
 vim.opt.signcolumn = "yes"
-vim.opt.termguicolors = true
+vim.opt.undofile = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4

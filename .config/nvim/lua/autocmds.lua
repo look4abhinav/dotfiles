@@ -1,17 +1,32 @@
 -- Autocmds
+local augroup = vim.api.nvim_create_augroup("Config", { clear = true })
 
--- Auto-save on focus lost / buffer leave
+-- Save the buffer on focus lost / buffer leave
 vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
-	pattern = "*",
-	command = "silent! wall",
+	group = augroup,
+	callback = function()
+		if vim.bo.buftype == "" and vim.bo.modifiable and vim.fn.expand("%") ~= "" then
+			vim.cmd("silent write")
+		end
+	end,
 })
 
--- Terminal buffers: hide line numbers and name them "Terminal"
+-- Terminal buffers: hide line numbers
 vim.api.nvim_create_autocmd("TermOpen", {
-	group = vim.api.nvim_create_augroup("terminal", { clear = true }),
+	group = augroup,
 	callback = function()
 		vim.opt_local.number = false
 		vim.opt_local.relativenumber = false
-		pcall(vim.cmd.file, "Terminal")
+	end,
+})
+
+-- Treesitter indentation and folding
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup,
+	pattern = { "python", "lua", "sh", "bash", "json", "yaml", "toml", "markdown" },
+	callback = function()
+		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		vim.wo.foldmethod = "expr"
+		vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 	end,
 })

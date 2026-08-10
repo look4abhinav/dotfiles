@@ -15,35 +15,42 @@ vim.keymap.set("n", "<C-S-Tab>", ":BufferLineCyclePrev<CR>", { silent = true, de
 
 -- Run Python file with uv (<leader>R avoids clash with <leader>rn rename)
 vim.keymap.set("n", "<leader>R", function()
+	local file = vim.fn.expand("%")
+	if file == "" then
+		vim.notify("No file to run", vim.log.levels.WARN)
+		return
+	end
 	vim.cmd("write")
 	vim.cmd("botright 10split")
 	vim.cmd("wincmd j")
-	vim.cmd("term uv run " .. vim.fn.expand("%"))
+	vim.cmd("term uv run " .. vim.fn.shellescape(file))
 	vim.cmd("startinsert")
-end, { desc = "Run Python file" })
+end, { desc = "Run Python file with uv" })
 
--- Toggle terminal
-local state = { buf = -1 }
-local function toggle_terminal()
-	if not vim.api.nvim_buf_is_valid(state.buf) then
-		for _, b in ipairs(vim.api.nvim_list_bufs()) do
-			if vim.api.nvim_buf_get_name(b):match("Terminal$") then
-				vim.api.nvim_buf_delete(b, { force = true })
-			end
-		end
-		vim.cmd("botright 15split | terminal")
-		state.buf = vim.api.nvim_get_current_buf()
-		vim.api.nvim_buf_set_name(state.buf, "Terminal")
-		vim.cmd("startinsert")
+-- Toggle terminal; tracks its buffer so it can never close other terminals
+local term = { buf = -1 }
+
+local function open_terminal(buf)
+	vim.cmd("botright 15split")
+	if vim.api.nvim_buf_is_valid(buf) then
+		vim.api.nvim_win_set_buf(0, buf)
 	else
-		local win = vim.fn.bufwinid(state.buf)
+		vim.cmd("terminal")
+	end
+	vim.cmd("startinsert")
+end
+
+local function toggle_terminal()
+	if vim.api.nvim_buf_is_valid(term.buf) then
+		local win = vim.fn.bufwinid(term.buf)
 		if win ~= -1 then
 			vim.api.nvim_win_close(win, true)
 		else
-			vim.cmd("botright 15split")
-			vim.api.nvim_win_set_buf(0, state.buf)
-			vim.cmd("startinsert")
+			open_terminal(term.buf)
 		end
+	else
+		open_terminal(term.buf)
+		term.buf = vim.api.nvim_get_current_buf()
 	end
 end
 vim.keymap.set("n", "<leader>t", toggle_terminal, { desc = "Toggle terminal" })
@@ -53,31 +60,6 @@ vim.keymap.set("t", "<leader>t", function()
 end, { desc = "Toggle terminal" })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("t", "<leader>x", "<C-\\><C-n>:bdelete!<CR>", { silent = true, desc = "Kill terminal" })
-
--- Telescope: project search (VSCode-like)
-vim.keymap.set("n", "<leader>sf", function()
-	require("telescope.builtin").find_files()
-end, { desc = "Search files" })
-vim.keymap.set("n", "<leader>sg", function()
-	require("telescope.builtin").live_grep()
-end, { desc = "Search in project (grep)" })
-vim.keymap.set("n", "<leader>sw", function()
-	require("telescope.builtin").live_grep({
-		default_text = vim.fn.expand("<cword>"),
-	})
-end, { desc = "Search word under cursor" })
-vim.keymap.set("n", "<leader>sb", function()
-	require("telescope.builtin").buffers()
-end, { desc = "Search buffers" })
-vim.keymap.set("n", "<leader>sd", function()
-	require("telescope.builtin").diagnostics()
-end, { desc = "Search diagnostics" })
-vim.keymap.set("n", "<leader>ss", function()
-	require("telescope.builtin").lsp_document_symbols()
-end, { desc = "Search symbols" })
-vim.keymap.set("n", "<leader>sk", function()
-	require("telescope.builtin").keymaps({ show_plug = false })
-end, { desc = "Search keymaps" })
 
 -- Git (gitsigns): blame + hunks
 vim.keymap.set("n", "<leader>gb", function()
