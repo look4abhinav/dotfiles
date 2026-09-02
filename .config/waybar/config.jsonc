@@ -12,8 +12,16 @@
     "custom/power",
   ],
   "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "1": "󰈹",
+      "2": "",
+      "3": "󰨞",
+      "4": "󰉋",
+      "5": "󰏑",
+    },
     "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5],
+      "*": 5,
     },
   },
   "battery": {
@@ -59,10 +67,10 @@
     "on-click": "exec ghostty --title=htop -e htop",
   },
   "network": {
-    "format": "",
+    "format": "", // An empty format will hide the module.
     "format-wifi": "󰤨",
     "format-ethernet": "󰈁",
-    "format-disconnected": "󰤮", //An empty format will hide the module.
+    "format-disconnected": "󰤮",
     "tooltip-format": "{ifname} via {gwaddr} 󰊗",
     "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
     "tooltip-format-ethernet": "{ifname} ",
@@ -86,7 +94,7 @@
     "format-icons": {
       "default": ["", ""],
     },
-    "scroll-step": 1,
+    "scroll-step": 5,
     "ignored-sinks": ["Easy Effects Sink"],
     "on-click": "pavucontrol",
   },
@@ -117,17 +125,7 @@
   },
   "group/system-stats": {
     "orientation": "horizontal",
-    "modules": ["custom/spacer-left", "cpu", "memory", "custom/spacer-right"],
-  },
-  "custom/spacer-left": {
-    "format": "    ",
-    "interval": "once",
-    "tooltip": false,
-  },
-  "custom/spacer-right": {
-    "format": "  ",
-    "interval": "once",
-    "tooltip": false,
+    "modules": ["cpu", "memory"],
   },
   "custom/power": {
     "format": "",

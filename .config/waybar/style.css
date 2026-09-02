@@ -36,6 +36,10 @@ window#waybar {
     font-weight: 700;
 }
 
+#workspaces button.empty {
+    color: rgba(255, 255, 255, 0.4);
+}
+
 #workspaces,
 #submap,
 #battery,
@@ -158,7 +162,7 @@ tooltip label {
 }
 
 #pulseaudio {
-    color: rgba(117, 241, 250, 1);
+    color: @highlight;
 }
 
 #pulseaudio.muted {
@@ -166,11 +170,12 @@ tooltip label {
 }
 
 #backlight {
-    color: rgba(117, 241, 250, 1);
+    color: @highlight;
 }
 
 #cpu {
     color: #42ff9f;
+    margin-left: 28px;
 }
 
 #clock {
@@ -187,6 +192,7 @@ tooltip label {
 
 #memory {
     color: #42ff9f;
+    margin-right: 14px;
 }
 
 #memory.warning {
