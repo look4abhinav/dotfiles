@@ -69,12 +69,11 @@ window#waybar {
     opacity: 0;
     padding: 0;
     margin: 0;
+    transition: opacity 0.2s ease;
 }
 
-#volume:hover ~ #pulseaudio-slider,
-#pulseaudio-slider:hover,
-#backlight:hover ~ #backlight-slider,
-#backlight-slider:hover {
+#volume:hover #pulseaudio-slider,
+#brightness:hover #backlight-slider {
     opacity: 1;
     margin-left: 8px;
 }
@@ -98,10 +97,8 @@ window#waybar {
     background: @dark-7;
 }
 
-#volume:hover ~ #pulseaudio-slider trough,
-#pulseaudio-slider:hover trough,
-#backlight:hover ~ #backlight-slider trough,
-#backlight-slider:hover trough {
+#volume:hover #pulseaudio-slider trough,
+#brightness:hover #backlight-slider trough {
     min-width: 75px;
 }
 
@@ -112,10 +109,8 @@ window#waybar {
     background: @highlight;
 }
 
-#volume:hover ~ #pulseaudio-slider highlight,
-#pulseaudio-slider:hover highlight,
-#backlight:hover ~ #backlight-slider highlight,
-#backlight-slider:hover highlight {
+#volume:hover #pulseaudio-slider highlight,
+#brightness:hover #backlight-slider highlight {
     min-width: 10px;
 }
 
