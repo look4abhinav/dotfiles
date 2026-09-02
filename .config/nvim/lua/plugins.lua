@@ -80,7 +80,6 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		config = function()
 			vim.lsp.config("ty", {
-				inlay_hints = { enabled = true },
 				settings = {
 					ty = {
 						diagnosticMode = "workspace",
@@ -106,8 +105,13 @@ require("lazy").setup({
 					map("K", vim.lsp.buf.hover, "Hover documentation")
 					map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
 					map("<leader>ca", vim.lsp.buf.code_action, "Code action")
-					map("[d", vim.diagnostic.goto_prev, "Prev diagnostic")
-					map("]d", vim.diagnostic.goto_next, "Next diagnostic")
+					map("[d", function()
+						vim.diagnostic.jump({ count = -1, float = true })
+					end, "Prev diagnostic")
+					map("]d", function()
+						vim.diagnostic.jump({ count = 1, float = true })
+					end, "Next diagnostic")
+					vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
 					require("mini.clue").ensure_buf_triggers()
 				end,
 			})
