@@ -110,8 +110,9 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -alh $realpath'
 # =============================================================================
 alias nv='nvim'
 alias c='clear'
+alias ca='c;:>~/.zsh_history'
 alias ls='eza -alh'
-alias up='paru -Syu'
+command -v paru >/dev/null && alias up='paru -Syu' || alias up='sudo pacman -Syu'
 alias upy='UV_NO_MODIFY_PATH=1 uv self update; uv tool upgrade --all'
 alias path='print -l -- ${(s/:/)PATH}'
 alias zrc='nv ~/.zshrc; source ~/.zshrc'
@@ -137,6 +138,10 @@ source "$EVAL_CACHE_DIR/uv.zsh"
 # 12. PATH & ENVIRONMENT VARIABLES
 # =============================================================================
 export EDITOR='nvim'
+
+if [[ -f "$HOME/.local/bin/env" ]]; then
+  . "$HOME/.local/bin/env"
+fi
 
 if [[ -d "$HOME/.opencode/bin" ]]; then
   export PATH="$PATH:$HOME/.opencode/bin"
