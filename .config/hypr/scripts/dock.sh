@@ -20,6 +20,10 @@ active_names() {
 	hyprctl monitors -j 2>/dev/null | jq -r '.[] | select(.disabled == false) | .name'
 }
 
+wake_displays() {
+	hyprctl dispatch 'hl.dsp.dpms({action="on"})' >/dev/null 2>&1
+}
+
 move_workspaces() {
 	local target="$1"
 	[ -n "$target" ] || return 0
@@ -34,11 +38,13 @@ sleep 0.5
 case "${1-}" in
 docked)
 	save_brightness
+	wake_displays
 	move_workspaces "$(active_names | grep -v '^eDP-1$' | head -1)"
 	;;
 undocked)
 	target="$(active_names | grep '^eDP-1$' | head -1)"
 	[ -n "$target" ] || target="$(hyprctl monitors -j 2>/dev/null | jq -r '[.[] | select(.focused == true) | .name] | first // empty')"
+	wake_displays
 	move_workspaces "$target"
 	restore_brightness
 	;;
