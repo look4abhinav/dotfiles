@@ -22,12 +22,8 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # =============================================================================
 zinit wait lucid for \
     OMZL::git.zsh \
-    OMZP::git \
     OMZP::gh \
     OMZP::sudo \
-    OMZP::archlinux \
-    OMZP::uv \
-    OMZP::python \
     OMZP::command-not-found
 
 zinit wait lucid for \
