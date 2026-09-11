@@ -1,9 +1,7 @@
 -- Environment variables
 --
 -- Exported to the Hyprland session and inherited by every launched app.
--- Equivalent of the legacy `env = NAME,value` lines.
 
--- Wayland and Qt/GTK integration, plus cursor sizing.
 local vars = {
     { "XCURSOR_SIZE",                       "26" },
     { "HYPRCURSOR_SIZE",                    "26" },
@@ -14,8 +12,12 @@ local vars = {
     { "GDK_SCALE",                          "1" },
     { "GTK_THEME",                          "Adwaita:dark" },
     -- Expanded here because env values are not shell-expanded by the compositor.
-    { "SSH_AUTH_SOCK",                      (os.getenv("XDG_RUNTIME_DIR") or "") .. "/ssh-agent.socket" },
 }
+
+local runtime = os.getenv("XDG_RUNTIME_DIR")
+if runtime ~= nil and runtime ~= "" then
+    hl.env("SSH_AUTH_SOCK", runtime .. "/ssh-agent.socket")
+end
 
 for _, v in ipairs(vars) do
     hl.env(v[1], v[2])

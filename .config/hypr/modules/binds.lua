@@ -1,10 +1,4 @@
 -- Keybindings
---
--- Legacy bind flag mapping:
---   bind  -> plain hl.bind(...)
---   binde -> hl.bind(..., { repeating = true }) (fires while held)
---   bindr -> hl.bind(..., { release = true })   (fires on key release)
---   bindm -> hl.bind(..., { mouse = true })     (drag with mouse button)
 
 -- Keybind behavior
 hl.config({

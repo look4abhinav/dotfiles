@@ -1,8 +1,6 @@
 -- Layer rules
 --
--- Applies the glassmorphism blur to shell layers. All three layers get the
--- same treatment, so they are generated from a single list. This unifies
--- the two rule syntaxes the legacy config used (inline and block form).
+-- Glassmorphism blur on shell layers, generated from a single list.
 for _, ns in ipairs({ "mako", "waybar", "fuzzel" }) do
     hl.layer_rule({
         name         = ns .. "_glass",

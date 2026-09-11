@@ -1,13 +1,5 @@
--- ============================================================================
--- Hyprland Lua configuration (migrated from hyprland.conf)
---
--- Hyprland loads hyprland.lua instead of hyprland.conf when both exist.
--- Deleting this file instantly restores the legacy config, which is kept
--- untouched as a fallback.
---
--- Structure: this entry point only loads modules. Each file in modules/
--- owns one logical section of the old hyprland.conf.
--- ============================================================================
+-- Hyprland Lua configuration. Entry point only loads modules, each file
+-- in modules/ owns one section. hyprland-gui.lua is managed by HyprMod.
 
 require("modules.monitors")   -- display outputs
 require("modules.env")        -- environment variables

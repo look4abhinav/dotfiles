@@ -41,7 +41,7 @@ zinit wait lucid for \
 # 4. COMPLETIONS
 # =============================================================================
 autoload -Uz compinit
-if [[ $(date +'%j') != $(stat -c '%j' ~/.zcompdump 2>/dev/null) ]]; then
+if [[ $(date +'%j') != $(date -r ~/.zcompdump +'%j' 2>/dev/null) ]]; then
   compinit
 else
   compinit -C
@@ -144,6 +144,9 @@ if [[ -f "$HOME/.local/bin/env" ]]; then
 fi
 
 if [[ -d "$HOME/.opencode/bin" ]]; then
-  export PATH="$PATH:$HOME/.opencode/bin"
+  case ":$PATH:" in
+    *":$HOME/.opencode/bin:"*) ;;
+    *) export PATH="$PATH:$HOME/.opencode/bin" ;;
+  esac
 fi
 

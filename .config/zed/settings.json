@@ -67,7 +67,7 @@
   "autosave": "on_focus_change",
   "icon_theme": {
     "mode": "system",
-    "light": "Catppuccin Mocha",
+    "light": "Catppuccin Latte",
     "dark": "Catppuccin Mocha",
   },
   "base_keymap": "VSCode",

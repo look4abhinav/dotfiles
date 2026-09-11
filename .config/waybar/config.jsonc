@@ -21,7 +21,7 @@
       "5": "󰏑",
     },
     "persistent-workspaces": {
-      "*": 5,
+      "*": [1, 2, 3, 4, 5],
     },
   },
   "battery": {
@@ -86,7 +86,7 @@
         "today": "<span color='#75f1fa'><b>{}</b></span>",
       },
     },
-    "on-click": "exec chromium --app=https://calendar.google.com",
+    "on-click": "xdg-open https://calendar.google.com",
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",

@@ -4,9 +4,9 @@ hovered         = { fg = "black", bg = "lightblue" }
 preview_hovered = { underline = true }
 find_keyword    = { fg = "yellow", italic = true }
 find_position   = { fg = "magenta", bg = "reset", italic = true }
-marker_copied   = { fg = "green", bg = "green" }
-marker_cut      = { fg = "red", bg = "red" }
-marker_selected = { fg = "lightblue", bg = "lightblue" }
+marker_copied   = { fg = "black", bg = "green" }
+marker_cut      = { fg = "black", bg = "red" }
+marker_selected = { fg = "black", bg = "lightblue" }
 
 [status]
 separator_open  = ""

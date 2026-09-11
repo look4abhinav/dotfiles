@@ -1,8 +1,10 @@
 profile docked {
     output eDP-1 disable
-    output "*BenQ MA270U*" enable scale 1.666667
+    output "BNQ BenQ MA270U *" enable mode 3840x2160@60 position 0,0 scale 1.666667
+    exec sh -c '$HOME/.config/hypr/scripts/dock.sh docked'
 }
 
 profile undocked {
-    output eDP-1 enable mode 2160x1440@60 position 0,0 scale 1.5
+    output eDP-1 enable mode preferred position 0,0 scale 1.5
+    exec sh -c '$HOME/.config/hypr/scripts/dock.sh undocked'
 }

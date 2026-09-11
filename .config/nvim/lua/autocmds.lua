@@ -5,7 +5,7 @@ local augroup = vim.api.nvim_create_augroup("Config", { clear = true })
 vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
 	group = augroup,
 	callback = function()
-		if vim.bo.buftype == "" and vim.bo.modifiable and vim.fn.expand("%") ~= "" then
+		if vim.bo.modified and not vim.bo.readonly and vim.bo.buftype == "" and vim.bo.modifiable and vim.fn.expand("%") ~= "" then
 			vim.cmd("silent write")
 		end
 	end,

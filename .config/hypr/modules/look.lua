@@ -57,8 +57,8 @@ hl.config({
     },
 })
 
--- Custom bezier curves. These must be defined before the animations that
--- reference them. ("liner" is spelled as in the legacy config.)
+-- Custom bezier curves, defined before the animations referencing them.
+-- ("liner" keeps the legacy spelling.)
 hl.curve("easeOutQuint",   { type = "bezier", points = { { 0.23, 1 },    { 0.32, 1 } } })
 hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36, 1 } } })
 hl.curve("liner",          { type = "bezier", points = { { 1, 1 },       { 1, 1 } } })

@@ -5,16 +5,10 @@ if pidof slurp > /dev/null; then
     exit 0
 fi
 
-# Modern & Professional slurp styling
-# -d: Display selection dimensions
-# -b: Background color (semi-transparent black to dim the screen)
-# -c: Border color (cyan, matching your Hyprland active border theme)
-# -w: Border weight
-# -F: Font for dimensions
-slurp_args="-d -b #000000aa -c #33ccff -w 2 -F sans-serif"
+# Region prompt: dimmed background with a cyan border
+slurp_args=(-d -b "#000000aa" -c "#33ccff" -w 2 -F "sans-serif")
 
-# Run slurp to get the selected region
-geometry=$(slurp $slurp_args)
+geometry=$(slurp "${slurp_args[@]}")
 
 # Exit if user canceled the selection (e.g., by pressing Esc)
 if [ -z "$geometry" ]; then
