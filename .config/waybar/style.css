@@ -42,7 +42,10 @@ window#waybar {
 #bluetooth,
 #network,
 #cpu,
+#custom-cpu,
 #memory,
+#custom-memory,
+#idle_inhibitor,
 #volume,
 #brightness,
 #clock,
@@ -164,7 +167,8 @@ tooltip label {
     color: @highlight;
 }
 
-#cpu {
+#cpu,
+#custom-cpu {
     color: #42ff9f;
     margin-left: 28px;
 }
@@ -173,25 +177,43 @@ tooltip label {
     font-weight: bold;
 }
 
-#cpu.warning {
+#cpu.warning,
+#custom-cpu.warning {
     color: #f0a040;
 }
 
-#cpu.critical {
+#cpu.critical,
+#custom-cpu.critical {
     color: rgba(227, 81, 73, 1);
 }
 
-#memory {
+#memory,
+#custom-memory {
     color: #42ff9f;
     margin-right: 14px;
 }
 
-#memory.warning {
+#memory.warning,
+#custom-memory.warning {
     color: #f0a040;
 }
 
-#memory.critical {
+#memory.critical,
+#custom-memory.critical {
     color: rgba(227, 81, 73, 1);
+}
+
+#idle_inhibitor {
+    color: #42ff9f;
+    margin-right: 14px;
+}
+
+#idle_inhibitor.deactivated {
+    color: #75f1fa;
+}
+
+#idle_inhibitor:hover {
+    background: rgba(117, 241, 250, 0.15);
 }
 
 #custom-power {

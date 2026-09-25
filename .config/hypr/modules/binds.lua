@@ -11,6 +11,7 @@ local mainMod     = "SUPER"
 local terminal    = "ghostty"
 local browser     = "zen-browser"
 local menu        = "fuzzel"
+local powerMenu   = "wlogout -b 3 -T 300 -B 300 -L 150 -R 150"
 local wallpaper   = "waypaper"
 local fileManager = "thunar"
 local editor      = "code"
@@ -27,6 +28,7 @@ hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock -c ~/.config/hypr/h
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd(browser .. " --private-window"))
 hl.bind(mainMod .. " + Space",     hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd(powerMenu))
 hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd(wallpaper))
 hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + S",         hl.dsp.exec_cmd("signal-desktop"))
