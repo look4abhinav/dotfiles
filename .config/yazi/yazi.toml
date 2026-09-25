@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 ratio          = [ 1, 4, 3 ]
 sort_by        = "natural"
 sort_sensitive = false
@@ -15,6 +15,5 @@ max_height      = 1000
 cache_dir       = ""
 image_filter    = "triangle"
 image_quality   = 75
-sixel_fraction  = 15
 ueberzug_scale  = 1
 ueberzug_offset = [ 0, 0, 0, 0 ]

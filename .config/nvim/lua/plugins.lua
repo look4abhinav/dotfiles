@@ -6,7 +6,6 @@ if not vim.uv.fs_stat(lazypath) then
 		"clone",
 		"--filter=blob:none",
 		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable",
 		lazypath,
 	})
 end
@@ -20,7 +19,6 @@ require("lazy").setup({
 		config = function()
 			require("catppuccin").setup({
 				flavour = "mocha",
-				integrations = { native_lsp = true, treesitter = true },
 			})
 			vim.cmd.colorscheme("catppuccin")
 		end,
@@ -32,7 +30,7 @@ require("lazy").setup({
 		cmd = { "NvimTreeToggle" },
 		config = function()
 			require("nvim-tree").setup({
-				sort_by = "case_sensitive",
+				sort = { sorter = "case_sensitive" },
 				view = { width = 30, side = "right" },
 				renderer = { group_empty = true },
 				filters = { dotfiles = false },
@@ -42,7 +40,6 @@ require("lazy").setup({
 
 	{
 		"akinsho/bufferline.nvim",
-		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		cmd = { "BufferLineCycleNext", "BufferLineCyclePrev" },
 		config = function()
@@ -52,6 +49,8 @@ require("lazy").setup({
 					numbers = "none",
 					show_buffer_close_icons = true,
 					show_close_icon = true,
+					close_command = "confirm bdelete %d",
+					right_mouse_command = "confirm bdelete %d",
 					separator_style = "thin",
 				},
 			})
@@ -63,7 +62,8 @@ require("lazy").setup({
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter").install({
+			local treesitter = require("nvim-treesitter")
+			local parsers = {
 				"python",
 				"lua",
 				"bash",
@@ -72,7 +72,18 @@ require("lazy").setup({
 				"toml",
 				"markdown",
 				"markdown_inline",
-			})
+			}
+			local installed = treesitter.get_installed("parsers")
+			local missing = vim.tbl_filter(function(parser)
+				return not vim.list_contains(installed, parser)
+			end, parsers)
+
+			if #missing > 0 then
+				local ok, result = treesitter.install(missing, { summary = true }):pwait(60000)
+				if not ok or not result then
+					vim.notify("nvim-treesitter parser installation failed: " .. tostring(result), vim.log.levels.ERROR)
+				end
+			end
 		end,
 	},
 
@@ -112,7 +123,7 @@ require("lazy").setup({
 						vim.diagnostic.jump({ count = 1, float = true })
 					end, "Next diagnostic")
 					vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-					require("mini.clue").ensure_buf_triggers()
+					require("mini.clue").ensure_buf_triggers(args.buf)
 				end,
 			})
 		end,
@@ -120,6 +131,7 @@ require("lazy").setup({
 
 	{
 		"saghen/blink.cmp",
+		-- main is v2, which needs saghen/blink.lib plus a rust build; track the release instead
 		version = "*",
 		opts = {
 			sources = { default = { "lsp", "path", "buffer" } },
@@ -132,7 +144,7 @@ require("lazy").setup({
 				["<Tab>"] = { "select_next", "fallback" },
 				["<S-Tab>"] = { "select_prev", "fallback" },
 				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-				["<C-e>"] = { "hide" },
+				["<C-e>"] = { "hide", "fallback" },
 			},
 			completion = { documentation = { auto_show = true } },
 		},
@@ -150,7 +162,7 @@ require("lazy").setup({
 				sh = { "shfmt" },
 				bash = { "shfmt" },
 			},
-			format_on_save = { timeout_ms = 500, lsp_fallback = true },
+			format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
 		},
 	},
 
@@ -164,8 +176,11 @@ require("lazy").setup({
 				bash = { "shellcheck" },
 			}
 			vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
-				callback = function()
-					lint.try_lint()
+				callback = function(args)
+					-- lint.try_lint() targets the current buffer, so run it in the event buffer
+					vim.api.nvim_buf_call(args.buf, function()
+						lint.try_lint()
+					end)
 				end,
 			})
 		end,
@@ -236,25 +251,21 @@ require("lazy").setup({
 
 	{
 		"nvim-mini/mini.cursorword",
-		version = "*",
 		opts = {},
 	},
 
 	{
 		"nvim-mini/mini.comment",
-		version = "*",
 		opts = {},
 	},
 
 	{
 		"nvim-mini/mini.surround",
-		version = "*",
 		opts = {},
 	},
 
 	{
 		"nvim-mini/mini.clue",
-		version = "*",
 		opts = function()
 			local clue = require("mini.clue")
 			return {

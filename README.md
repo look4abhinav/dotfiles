@@ -16,7 +16,7 @@ The following configurations are tracked in this repository:
 - **System Monitors:** `htop` (custom layout).
 - **Package Manager:** `paru` (AUR helper) optimized for usability.
 - **Utilities:** `bat`, `eza`, `yazi`, `zoxide`, `fzf`, `gh`, and `uv`.
-- **Git:** Customized `~/.gitconfig` with SSH commit signing.
+- **Git:** Customized `~/.gitconfig` with identity, GitHub authentication, aliases, and workflow defaults; commit signing is user-managed.
 
 ## 🎨 Theme
 The central theme across these dotfiles is **Catppuccin Mocha**, providing a consistent and beautiful experience across Neovim, Tmux, Ghostty, and Bat. The Hyprland/waybar/mako/wlogout layer uses a complementary "liquid glass" cyan accent (`#33ccff`) on top of the Mocha base.

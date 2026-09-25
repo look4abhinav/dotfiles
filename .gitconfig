@@ -37,11 +37,6 @@
 [user]
 	name = Abhinav Srivastava
 	email = look4abhinav@outlook.in
-	signingkey = /home/abhinav/.ssh/id_ed25519.pub
-[gpg]
-	format = ssh
-[commit]
-	gpgSign = true
 [init]
 	defaultBranch = main
 [diff]

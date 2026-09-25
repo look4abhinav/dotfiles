@@ -76,7 +76,7 @@ hl.bind("CAPS + Caps_Lock", hl.dsp.exec_cmd(sysScript .. " caps"), { release = t
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh"))
 
 -- Clipboard history
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | fuzzel -d -w 80 | cliphist decode | wl-copy"))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.config/hypr/scripts/clipboard.sh"))
 
 -- Toggle to the previously focused workspace
 hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))

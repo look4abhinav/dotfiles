@@ -1,17 +1,23 @@
-[manager]
-cwd = { fg = "blue" }
-hovered         = { fg = "black", bg = "lightblue" }
-preview_hovered = { underline = true }
+[mgr]
+cwd             = { fg = "blue" }
 find_keyword    = { fg = "yellow", italic = true }
 find_position   = { fg = "magenta", bg = "reset", italic = true }
 marker_copied   = { fg = "black", bg = "green" }
 marker_cut      = { fg = "black", bg = "red" }
 marker_selected = { fg = "black", bg = "lightblue" }
 
+[indicator]
+current = { fg = "black", bg = "lightblue" }
+preview = { underline = true }
+
+[mode]
+normal_main = { bg = "blue", fg = "black", bold = true }
+normal_alt  = { fg = "blue", bg = "darkgray" }
+select_main = { bg = "green", fg = "black", bold = true }
+select_alt  = { fg = "green", bg = "darkgray" }
+unset_main  = { bg = "magenta", fg = "black", bold = true }
+unset_alt   = { fg = "magenta", bg = "darkgray" }
+
 [status]
-separator_open  = ""
-separator_close = ""
-separator_style = { fg = "darkgray", bg = "darkgray" }
-mode_normal = { bg = "blue", fg = "black", bold = true }
-mode_select = { bg = "green", fg = "black", bold = true }
-mode_unset  = { bg = "magenta", fg = "black", bold = true }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }

@@ -25,18 +25,6 @@ vim.opt.virtualedit = "onemore"
 vim.opt.guicursor =
 	"n-v-c:block-blinkwait300-blinkon200-blinkoff150,i-ci-ve:ver25-blinkwait300-blinkon200-blinkoff150,r-cr:hor20-blinkwait300-blinkon200-blinkoff150,o:hor50-blinkwait300-blinkon200-blinkoff150"
 
--- Clipboard over OSC 52 (works through SSH)
-vim.g.clipboard = {
-	name = "OSC 52",
-	copy = {
-		["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-	},
-	paste = {
-		["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-		["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-	},
-}
 vim.opt.clipboard = "unnamedplus"
 
 vim.diagnostic.config({

@@ -32,7 +32,7 @@
     },
     "format": "{icon} {capacity}%",
     "format-icons": {
-      "default": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+      "default": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰂁", "󰂉"],
       "charging": ["󰢟", "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
     },
     "tooltip-format": "Battery: <span color='#75f1fa'>{capacity}%</span>  {timeTo}",
@@ -84,7 +84,7 @@
     },
     "tooltip-format-activated": "<b>Awake: <span color='#42ff9f'>Active</span></b>",
     "tooltip-format-deactivated": "<b>Awake: <span color='#75f1fa'>Inactive</span></b>",
-    "start-activated": true,
+    "start-activated": false,
   },
   "network": {
     "format": "", // An empty format will hide the module.

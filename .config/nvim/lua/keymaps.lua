@@ -2,11 +2,11 @@
 
 -- Format buffer
 vim.keymap.set("n", "<leader>f", function()
-	require("conform").format({ async = false, lsp_fallback = true })
+	require("conform").format({ async = false, lsp_format = "fallback" })
 end, { desc = "Format buffer" })
 
 vim.keymap.set("n", "<leader>q", vim.cmd.q, { desc = "Close window" })
-vim.keymap.set("n", "<leader>x", ":bdelete!<CR>", { silent = true, desc = "Close buffer" })
+vim.keymap.set("n", "<leader>x", ":confirm bdelete<CR>", { silent = true, desc = "Close buffer" })
 vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true, desc = "Toggle file tree" })
 
 -- Buffer navigation (Ctrl+Tab keeps <Tab>/<C-i> jumplist free)
@@ -59,14 +59,14 @@ vim.keymap.set("t", "<leader>t", function()
 	toggle_terminal()
 end, { desc = "Toggle terminal" })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-vim.keymap.set("t", "<leader>x", "<C-\\><C-n>:bdelete!<CR>", { silent = true, desc = "Kill terminal" })
+vim.keymap.set("t", "<leader>x", "<C-\\><C-n>:confirm bdelete<CR>", { silent = true, desc = "Kill terminal" })
 
 -- Git (gitsigns): blame + hunks
 vim.keymap.set("n", "<leader>gb", function()
 	require("gitsigns").toggle_current_line_blame()
 end, { desc = "Git blame (inline)" })
 vim.keymap.set("n", "<leader>gB", function()
-	require("gitsigns").toggle_blame_line()
+	require("gitsigns").blame()
 end, { desc = "Git blame (all lines)" })
 vim.keymap.set("n", "<leader>gp", function()
 	require("gitsigns").preview_hunk()
