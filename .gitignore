@@ -15,6 +15,7 @@ Thumbs.db
 # ── NeoVim ────────────────────────────────────────────────
 **/nvim/plugin/packer_compiled.lua
 **/nvim/spell/*.add
+**/nvim/lazy-lock.json
 *.spl
 
 # ── Shell history / zsh ──────────────────────────────────
@@ -53,6 +54,11 @@ env/
 
 # ── Waybar compiled/logs ──────────────────────────────────
 **/waybar/waybar.log
+
+# ── herdr runtime state (logs, session.json, plugins.lock) ─
+# herdr keeps runtime artifacts next to config.toml; track only the config
+**/herdr/*
+!**/herdr/config.toml
 
 # ── GNU Stow ──────────────────────────────────────────────
 # If you ever accidentally run stow without --target:

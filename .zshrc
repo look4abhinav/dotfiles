@@ -116,7 +116,7 @@ alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
 alias pyc='fd -H -I "^(__pycache__|\.ruff_cache|\.pytest_cache|\.mypy_cache|\.ipynb_checkpoints|\.eggs|\.tox)$|\.(egg-info|egg|pyc|pyo)$" -X rm -rf'
 
 # =============================================================================
-# 11. CACHED SHELL INTEGRATIONS (fzf, zoxide, uv)
+# 11. CACHED SHELL INTEGRATIONS (fzf, zoxide, uv, herdr)
 # =============================================================================
 EVAL_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_evals"
 mkdir -p "$EVAL_CACHE_DIR"
@@ -129,6 +129,9 @@ source "$EVAL_CACHE_DIR/zoxide.zsh"
 
 if [[ ! -f "$EVAL_CACHE_DIR/uv.zsh" ]]; then uv generate-shell-completion zsh > "$EVAL_CACHE_DIR/uv.zsh"; fi
 source "$EVAL_CACHE_DIR/uv.zsh"
+
+if [[ ! -f "$EVAL_CACHE_DIR/herdr.zsh" ]]; then herdr completion zsh > "$EVAL_CACHE_DIR/herdr.zsh"; fi
+source "$EVAL_CACHE_DIR/herdr.zsh"
 
 # =============================================================================
 # 12. PATH & ENVIRONMENT VARIABLES

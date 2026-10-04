@@ -13,6 +13,7 @@ The following configurations are tracked in this repository:
 - **Status Bar:** `waybar` with custom modules and a glassmorphism-themed CSS.
 - **Notifications & Menus:** `mako` (notifications), `fuzzel` (app launcher), and `wlogout` (logout menu).
 - **Multiplexer:** `tmux` with `tpm` and `vim-tmux-navigator`.
+- **Agent Workspaces:** `herdr` (terminal workspace manager for AI coding agents) with a tracked `config.toml`.
 - **System Monitors:** `htop` (custom layout).
 - **Package Manager:** `paru` (AUR helper) optimized for usability.
 - **Utilities:** `bat`, `eza`, `yazi`, `zoxide`, `fzf`, `gh`, and `uv`.
