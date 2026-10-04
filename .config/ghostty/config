@@ -12,6 +12,6 @@ cursor-style = bar
 font-size = 15
 font-thicken = true
 gtk-titlebar = false
-
 keybind = ctrl+tab=unbind
 keybind = ctrl+shift+tab=unbind
+keybind = ctrl+v=paste_from_clipboard
