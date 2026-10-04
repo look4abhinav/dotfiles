@@ -54,6 +54,10 @@ hl.config({
 
     misc = {
         focus_on_activate = true,
+        -- Let a restarted locker take over the session after hyprlock crashes
+        -- (e.g. on dock/undock output churn). Without this, a dead locker
+        -- locks you out until reboot.
+        allow_session_lock_restore = true,
     },
 })
 
