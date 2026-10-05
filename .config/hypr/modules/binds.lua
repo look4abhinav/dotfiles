@@ -82,9 +82,9 @@ hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.config/hypr/scripts/clipboard.sh"
 hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
 
 -- Voice to text (push-to-talk): start on press, stop on release
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/Codebase/Whisper/hyprvoice.sh start"))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/Codebase/Whisper/hyprvoice.sh stop"), { release = true })
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprvoice.sh start"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprvoice.sh stop"), { release = true })
 
 -- AI Terminal Command (push-to-talk): start on press, stop on release
-hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/Codebase/Whisper/hyprshell.sh start"))
-hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/Codebase/Whisper/hyprshell.sh stop"), { release = true })
+hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprshell.sh start"))
+hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprshell.sh stop"), { release = true })

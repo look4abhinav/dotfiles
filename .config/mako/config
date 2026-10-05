@@ -25,6 +25,15 @@ default-timeout=5000
 
 
 # ==========================================
+# CRITICAL (errors) - red glass accent
+# ==========================================
+[urgency=critical]
+# Red-tinted glass, same translucency as the global style
+background-color=#2a1a2099
+border-color=#f38ba8aa
+
+
+# ==========================================
 # OSD SETTINGS (Volume & Brightness Pill)
 # ==========================================
 [category=osd]

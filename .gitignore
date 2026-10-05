@@ -40,6 +40,7 @@ __pycache__/
 # ── Secrets & tokens ──────────────────────────────────────
 .env
 .env.*
+!.env.example
 *.secret
 *.token
 credentials
