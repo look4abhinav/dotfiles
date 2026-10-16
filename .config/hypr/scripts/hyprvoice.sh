@@ -24,7 +24,7 @@ if [[ -z "${GROQ_API_KEY:-}" ]]; then
 fi
 
 TRANSCRIPTION_MODEL="whisper-large-v3-turbo"
-CLEANUP_MODEL="openai/gpt-oss-120b"
+CLEANUP_MODEL="qwen/qwen3.8-27b"
 CUSTOM_DICTIONARY="Arch Linux, Hyprland, Python, Docker, pandas, polars, NumPy, scikit-learn, PyTorch, CI/CD, Git, JSON, YAML, SQL, bash, Wayland, API, regex"
 
 # shellcheck disable=SC2016  # prompt is literal, must not expand
