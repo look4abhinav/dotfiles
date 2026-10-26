@@ -24,8 +24,9 @@ if [[ -z "${GROQ_API_KEY:-}" ]]; then
 fi
 
 TRANSCRIPTION_MODEL="whisper-large-v3-turbo"
-CLEANUP_MODEL="qwen/qwen3.8-27b"
-CUSTOM_DICTIONARY="Arch Linux, Hyprland, Python, Docker, pandas, polars, NumPy, scikit-learn, PyTorch, CI/CD, Git, JSON, YAML, SQL, bash, Wayland, API, regex"
+# CLEANUP_MODEL="qwen/qwen3.8-27b"
+CLEANUP_MODEL="openai/gpt-oss-120b"
+CUSTOM_DICTIONARY="Arch Linux, Hyprland, Python, Docker, PyTorch, CI/CD, Git, JSON, YAML, SQL, bash, Wayland, API, regex, Groq, Qwen, Deepseek, MiMo, STT, TTS"
 
 # shellcheck disable=SC2016  # prompt is literal, must not expand
 CLEANUP_SYSTEM_PROMPT='You are a transcript cleanup engine inside a dictation app. Input: one raw speech transcript, provided between <transcript> tags. Output: the same transcript, cleaned. That is your only function.
