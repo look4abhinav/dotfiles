@@ -60,6 +60,7 @@ bindkey '^[w' kill-region
 bindkey ' ' magic-space
 bindkey -s '^Ga' 'git add .'
 bindkey -s '^Gc' 'git commit -m ""\C-b'
+bindkey -s '^Gp' 'git push origin'
 
 # =============================================================================
 # 7. HOOKS & FUNCTIONS
