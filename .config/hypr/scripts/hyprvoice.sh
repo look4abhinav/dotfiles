@@ -54,7 +54,7 @@ terminate_recorder() {
 ENV_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/.env"
 
 if [[ ! -f "$ENV_FILE" ]]; then
-    notify -t 5000 -u critical "❌ Missing API key" "Create $ENV_FILE (see .env.example)"
+    notify -t 5000 -u critical "❌ Missing config" "Create $ENV_FILE (see .env.example)"
     exit 1
 fi
 
@@ -63,21 +63,13 @@ set -a
 source "$ENV_FILE"
 set +a
 
-if [[ -z "${OPENAI_API_KEY:-}" ]]; then
-    notify -t 5000 -u critical "❌ Missing API key" "Set OPENAI_API_KEY in $ENV_FILE"
+if [[ -z "${OPENAI_API_KEY:-}" || -z "${OPENAI_BASE_URL:-}" ]]; then
+    notify -t 5000 -u critical "❌ Missing API config" "Set OPENAI_API_KEY and OPENAI_BASE_URL in $ENV_FILE"
     exit 1
 fi
 
-if [[ -z "${OPENAI_BASE_URL:-}" ]]; then
-    notify -t 5000 -u critical "❌ Missing API base URL" "Set OPENAI_BASE_URL in $ENV_FILE"
-    exit 1
-fi
-
-# Normalize to an OpenAI-compatible /v1 root whether or not the configured
-# value already ends in /v1 (Bifrost serves its API under /v1).
+# The env URL must include the API root (e.g. https://host/v1 or .../openai).
 OPENAI_BASE_URL="${OPENAI_BASE_URL%/}"
-OPENAI_BASE_URL="${OPENAI_BASE_URL%/v1}"
-API_BASE_URL="${OPENAI_BASE_URL}/v1"
 
 TRANSCRIPTION_MODEL="${STT_MODEL:-whisper-large-v3}"
 CLEANUP_MODEL="${LLM_MODEL:-qwen/qwen3.8-27b}"
@@ -163,7 +155,7 @@ stop)
 
     notify -t 0 -h int:value:33 "⏳ Transcribing..." "Whisper is processing..."
 
-    TRANSCRIPT=$(curl -sS --fail-with-body --max-time 120 -X POST "${API_BASE_URL}/audio/transcriptions" \
+    TRANSCRIPT=$(curl -sS --fail-with-body --max-time 120 -X POST "${OPENAI_BASE_URL}/audio/transcriptions" \
         -H "Authorization: Bearer $OPENAI_API_KEY" \
         -H "Content-Type: multipart/form-data" \
         -F file="@$AUDIO_FILE" \
@@ -172,7 +164,7 @@ stop)
         -F prompt="$CUSTOM_DICTIONARY" \
         -F response_format="json" | jq -r '(.text // "") | gsub("^\\s+|\\s+$"; "")')
 
-    if [[ -z "$TRANSCRIPT" || "$TRANSCRIPT" == "null" ]]; then
+    if [[ -z "$TRANSCRIPT" ]]; then
         notify -t 5000 -u critical "❌ Error" "Transcription failed."
         exit 1
     fi
@@ -185,7 +177,7 @@ stop)
         --arg model "$CLEANUP_MODEL" \
         '{model: $model, messages: [{role: "system", content: $system}, {role: "user", content: $user}], temperature: 0.0, max_tokens: 4096}')
 
-    ENHANCED_TRANSCRIPT=$(curl -sS --fail-with-body --max-time 120 -X POST "${API_BASE_URL}/chat/completions" \
+    ENHANCED_TRANSCRIPT=$(curl -sS --fail-with-body --max-time 120 -X POST "${OPENAI_BASE_URL}/chat/completions" \
         -H "Authorization: Bearer $OPENAI_API_KEY" \
         -H "Content-Type: application/json" \
         -d "$JSON_PAYLOAD" | jq -r '.choices[0].message.content // empty')
