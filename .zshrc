@@ -69,7 +69,7 @@ chpwd() {
     emulate -L zsh
     if [[ -n "$VIRTUAL_ENV" ]]; then
         local env_root="${VIRTUAL_ENV:h}"
-        if [[ "$PWD" != "$env_root"* ]]; then
+        if [[ "$PWD" != "$env_root" && "$PWD" != "$env_root"/* ]]; then
             deactivate
         fi
     fi
@@ -119,20 +119,38 @@ alias pyc='fd -H -I "^(__pycache__|\.ruff_cache|\.pytest_cache|\.mypy_cache|\.ip
 # =============================================================================
 # 11. CACHED SHELL INTEGRATIONS (fzf, zoxide, uv, herdr)
 # =============================================================================
+if [[ -d "$HOME/.local/bin" && ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
 EVAL_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_evals"
 mkdir -p "$EVAL_CACHE_DIR"
 
-if [[ ! -f "$EVAL_CACHE_DIR/fzf.zsh" ]]; then fzf --zsh > "$EVAL_CACHE_DIR/fzf.zsh"; fi
-source "$EVAL_CACHE_DIR/fzf.zsh"
+cache_shell_integration() {
+    local cache_file="$EVAL_CACHE_DIR/$1.zsh"
+    local tmp_file
+    shift
 
-if [[ ! -f "$EVAL_CACHE_DIR/zoxide.zsh" ]]; then zoxide init --cmd cd zsh > "$EVAL_CACHE_DIR/zoxide.zsh"; fi
-source "$EVAL_CACHE_DIR/zoxide.zsh"
+    if [[ ! -s "$cache_file" ]]; then
+        command -v "$1" >/dev/null 2>&1 || return 0
+        tmp_file="$(mktemp "${cache_file}.XXXXXX")" || return 0
+        if "$@" > "$tmp_file" && [[ -s "$tmp_file" ]]; then
+            mv -f "$tmp_file" "$cache_file"
+        else
+            rm -f "$tmp_file"
+            return 0
+        fi
+    fi
 
-if [[ ! -f "$EVAL_CACHE_DIR/uv.zsh" ]]; then uv generate-shell-completion zsh > "$EVAL_CACHE_DIR/uv.zsh"; fi
-source "$EVAL_CACHE_DIR/uv.zsh"
+    [[ -s "$cache_file" ]] && source "$cache_file"
+}
 
-if [[ ! -f "$EVAL_CACHE_DIR/herdr.zsh" ]]; then herdr completion zsh > "$EVAL_CACHE_DIR/herdr.zsh"; fi
-source "$EVAL_CACHE_DIR/herdr.zsh"
+cache_shell_integration fzf fzf --zsh
+cache_shell_integration zoxide zoxide init --cmd cd zsh
+cache_shell_integration uv uv generate-shell-completion zsh
+cache_shell_integration herdr herdr completion zsh
+
+unfunction cache_shell_integration
 
 # =============================================================================
 # 12. PATH & ENVIRONMENT VARIABLES

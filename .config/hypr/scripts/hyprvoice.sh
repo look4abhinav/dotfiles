@@ -2,14 +2,59 @@
 set -uo pipefail
 umask 077
 
-AUDIO_FILE="/tmp/voice_record.wav"
-PID_FILE="/tmp/voice_record.pid"
-NOTIFY_CMD="notify-send -h string:x-canonical-private-synchronous:sys-stt"
+notify() {
+    notify-send -h string:x-canonical-private-synchronous:sys-stt "$@"
+}
+
+if [[ -n "${XDG_RUNTIME_DIR:-}" ]]; then
+    STATE_DIR="$XDG_RUNTIME_DIR/hyprvoice"
+else
+    STATE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/hyprvoice"
+fi
+
+if ! mkdir -p "$STATE_DIR" || ! chmod 700 "$STATE_DIR"; then
+    notify -t 5000 -u critical "❌ Error" "Unable to create dictation state directory."
+    exit 1
+fi
+
+AUDIO_FILE="$STATE_DIR/voice_record.wav"
+PID_FILE="$STATE_DIR/voice_record.pid"
+RECORDER_PID=""
+
+cleanup_state() {
+    rm -f -- "$PID_FILE" "$AUDIO_FILE"
+}
+
+recorder_is_active() {
+    local pid="${1:-}" argument
+    local first_argument=true
+    local audio_found=false
+
+    [[ "$pid" =~ ^[1-9][0-9]*$ && -r "/proc/$pid/cmdline" ]] || return 1
+
+    while IFS= read -r -d '' argument; do
+        if [[ "$first_argument" == true ]]; then
+            [[ "${argument##*/}" == "pw-record" ]] || return 1
+            first_argument=false
+        fi
+        if [[ "$argument" == "$AUDIO_FILE" ]]; then
+            audio_found=true
+        fi
+    done <"/proc/$pid/cmdline"
+
+    [[ "$first_argument" == false && "$audio_found" == true ]]
+}
+
+terminate_recorder() {
+    if recorder_is_active "$RECORDER_PID"; then
+        kill "$RECORDER_PID" 2>/dev/null || true
+    fi
+}
 
 ENV_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/.env"
 
 if [[ ! -f "$ENV_FILE" ]]; then
-    $NOTIFY_CMD -t 5000 -u critical "❌ Missing API key" "Create $ENV_FILE (see .env.example)"
+    notify -t 5000 -u critical "❌ Missing API key" "Create $ENV_FILE (see .env.example)"
     exit 1
 fi
 
@@ -18,15 +63,25 @@ set -a
 source "$ENV_FILE"
 set +a
 
-if [[ -z "${GROQ_API_KEY:-}" ]]; then
-    $NOTIFY_CMD -t 5000 -u critical "❌ Missing API key" "Set GROQ_API_KEY in $ENV_FILE"
+if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    notify -t 5000 -u critical "❌ Missing API key" "Set OPENAI_API_KEY in $ENV_FILE"
     exit 1
 fi
 
-TRANSCRIPTION_MODEL="whisper-large-v3-turbo"
-# CLEANUP_MODEL="qwen/qwen3.8-27b"
-CLEANUP_MODEL="openai/gpt-oss-120b"
-CUSTOM_DICTIONARY="Arch Linux, Hyprland, Python, Docker, PyTorch, CI/CD, Git, JSON, YAML, SQL, bash, Wayland, API, regex, Groq, Qwen, Deepseek, MiMo, STT, TTS"
+if [[ -z "${OPENAI_BASE_URL:-}" ]]; then
+    notify -t 5000 -u critical "❌ Missing API base URL" "Set OPENAI_BASE_URL in $ENV_FILE"
+    exit 1
+fi
+
+# Normalize to an OpenAI-compatible /v1 root whether or not the configured
+# value already ends in /v1 (Bifrost serves its API under /v1).
+OPENAI_BASE_URL="${OPENAI_BASE_URL%/}"
+OPENAI_BASE_URL="${OPENAI_BASE_URL%/v1}"
+API_BASE_URL="${OPENAI_BASE_URL}/v1"
+
+TRANSCRIPTION_MODEL="${STT_MODEL:-whisper-large-v3}"
+CLEANUP_MODEL="${LLM_MODEL:-qwen/qwen3.8-27b}"
+CUSTOM_DICTIONARY="Arch Linux, Hyprland, Python, Docker, pandas, polars, NumPy, scikit-learn, PyTorch, CI/CD, Git, JSON, YAML, SQL, bash, Wayland, API, regex"
 
 # shellcheck disable=SC2016  # prompt is literal, must not expand
 CLEANUP_SYSTEM_PROMPT='You are a transcript cleanup engine inside a dictation app. Input: one raw speech transcript, provided between <transcript> tags. Output: the same transcript, cleaned. That is your only function.
@@ -55,60 +110,96 @@ OUTPUT RULES:
 
 case "${1:-}" in
 start)
-    if [ -f "$PID_FILE" ]; then
+    if [[ -f "$PID_FILE" ]]; then
+        IFS= read -r RECORDER_PID <"$PID_FILE" || true
+        if recorder_is_active "$RECORDER_PID"; then
+            exit 0
+        fi
+    fi
+    cleanup_state
+
+    trap 'terminate_recorder; cleanup_state; exit 130' HUP INT TERM
+    pw-record --rate=16000 --channels=1 --format=s16 "$AUDIO_FILE" >/dev/null 2>&1 &
+    RECORDER_PID=$!
+    if ! printf '%s\n' "$RECORDER_PID" >"$PID_FILE"; then
+        terminate_recorder
+        cleanup_state
+        notify -t 5000 -u critical "❌ Error" "Unable to save recorder state."
+        exit 1
+    fi
+
+    sleep 0.1
+    if ! recorder_is_active "$RECORDER_PID"; then
+        wait "$RECORDER_PID" 2>/dev/null || true
+        cleanup_state
+        notify -t 5000 -u critical "❌ Error" "Recorder failed to start."
+        exit 1
+    fi
+
+    notify -t 0 -h int:value:100 "🎙️ Recording" "Release keys to transcribe..." &
+    ;;
+stop)
+    if [[ -f "$PID_FILE" ]]; then
+        IFS= read -r RECORDER_PID <"$PID_FILE" || true
+    fi
+    if ! recorder_is_active "$RECORDER_PID"; then
+        cleanup_state
         exit 0
     fi
 
-    pw-record --rate=16000 --channels=1 --format=s16 "$AUDIO_FILE" >/dev/null 2>&1 &
-    echo $! >"$PID_FILE"
-
-    $NOTIFY_CMD -t 0 -h int:value:100 "🎙️ Recording" "Release keys to transcribe..." &
-    ;;
-stop)
-    if [ -f "$PID_FILE" ]; then
-        kill "$(cat "$PID_FILE")"
-        rm "$PID_FILE"
-
-        $NOTIFY_CMD -t 0 -h int:value:33 "⏳ Transcribing..." "Whisper is processing..."
-
-        TRANSCRIPT=$(curl -s -X POST "https://api.groq.com/openai/v1/audio/transcriptions" \
-            -H "Authorization: Bearer $GROQ_API_KEY" \
-            -H "Content-Type: multipart/form-data" \
-            -F file="@$AUDIO_FILE" \
-            -F language="en" \
-            -F model="$TRANSCRIPTION_MODEL" \
-            -F prompt="$CUSTOM_DICTIONARY" \
-            -F response_format="json" | jq -r '.text')
-
-        if [ -z "$TRANSCRIPT" ] || [ "$TRANSCRIPT" == "null" ]; then
-            $NOTIFY_CMD -t 5000 -u critical "❌ Error" "Transcription failed."
-            exit 1
-        fi
-
-        $NOTIFY_CMD -t 0 -h int:value:66 "✨ Enhancing..." "Cleaning up text..."
-
-        JSON_PAYLOAD=$(jq -n \
-            --arg system "$CLEANUP_SYSTEM_PROMPT" \
-            --arg user "<transcript>\n$TRANSCRIPT\n</transcript>\n\nOutput only the cleaned transcript." \
-            --arg model "$CLEANUP_MODEL" \
-            '{model: $model, messages: [{role: "system", content: $system}, {role: "user", content: $user}], temperature: 0.0, max_tokens: 4096}')
-
-        ENHANCED_TRANSCRIPT=$(curl -s -X POST "https://api.groq.com/openai/v1/chat/completions" \
-            -H "Authorization: Bearer $GROQ_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d "$JSON_PAYLOAD" | jq -r '.choices[0].message.content // empty')
-
-        if [ -z "$ENHANCED_TRANSCRIPT" ]; then
-            echo "$TRANSCRIPT" | wl-copy
-            $NOTIFY_CMD -t 5000 -u critical "⚠️ Warning" "Cleanup failed. Copied raw transcript."
-            exit 1
-        fi
-
-        echo "$ENHANCED_TRANSCRIPT" | wl-copy
-        sleep 0.1
-        wtype -M ctrl -M shift -k v -m shift -m ctrl
-        $NOTIFY_CMD -t 3000 -h int:value:100 "✅ Done" "Text copied to clipboard!"
+    trap cleanup_state EXIT
+    trap 'terminate_recorder; exit 130' HUP INT TERM
+    if ! kill "$RECORDER_PID" 2>/dev/null; then
+        notify -t 5000 -u critical "❌ Error" "Unable to stop recorder."
+        exit 1
     fi
+    rm -f -- "$PID_FILE"
+    sleep 0.1
+
+    if [[ ! -f "$AUDIO_FILE" ]]; then
+        notify -t 5000 -u critical "❌ Error" "Recording audio is missing."
+        exit 1
+    fi
+
+    notify -t 0 -h int:value:33 "⏳ Transcribing..." "Whisper is processing..."
+
+    TRANSCRIPT=$(curl -sS --fail-with-body --max-time 120 -X POST "${API_BASE_URL}/audio/transcriptions" \
+        -H "Authorization: Bearer $OPENAI_API_KEY" \
+        -H "Content-Type: multipart/form-data" \
+        -F file="@$AUDIO_FILE" \
+        -F language="en" \
+        -F model="$TRANSCRIPTION_MODEL" \
+        -F prompt="$CUSTOM_DICTIONARY" \
+        -F response_format="json" | jq -r '(.text // "") | gsub("^\\s+|\\s+$"; "")')
+
+    if [[ -z "$TRANSCRIPT" || "$TRANSCRIPT" == "null" ]]; then
+        notify -t 5000 -u critical "❌ Error" "Transcription failed."
+        exit 1
+    fi
+
+    notify -t 0 -h int:value:66 "✨ Enhancing..." "Cleaning up text..."
+
+    JSON_PAYLOAD=$(jq -n \
+        --arg system "$CLEANUP_SYSTEM_PROMPT" \
+        --arg user "<transcript>\n$TRANSCRIPT\n</transcript>\n\nOutput only the cleaned transcript." \
+        --arg model "$CLEANUP_MODEL" \
+        '{model: $model, messages: [{role: "system", content: $system}, {role: "user", content: $user}], temperature: 0.0, max_tokens: 4096}')
+
+    ENHANCED_TRANSCRIPT=$(curl -sS --fail-with-body --max-time 120 -X POST "${API_BASE_URL}/chat/completions" \
+        -H "Authorization: Bearer $OPENAI_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d "$JSON_PAYLOAD" | jq -r '.choices[0].message.content // empty')
+
+    if [[ -z "$ENHANCED_TRANSCRIPT" ]]; then
+        echo "$TRANSCRIPT" | wl-copy
+        notify -t 5000 -u critical "⚠️ Warning" "Cleanup failed. Copied raw transcript."
+        exit 1
+    fi
+
+    echo "$ENHANCED_TRANSCRIPT" | wl-copy
+    sleep 0.1
+    wtype -M ctrl -M shift -k v -m shift -m ctrl
+    notify -t 3000 -h int:value:100 "✅ Done" "Text copied to clipboard!"
     ;;
 *)
     echo "Usage: $0 {start|stop}"

@@ -286,8 +286,6 @@ require("lazy").setup({
 		end,
 	},
 
-	{ "christoomey/vim-tmux-navigator", lazy = false },
-
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },

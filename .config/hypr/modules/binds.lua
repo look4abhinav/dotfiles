@@ -14,7 +14,6 @@ local menu        = "fuzzel"
 local powerMenu   = "wlogout -b 3 -T 300 -B 300 -L 150 -R 150"
 local wallpaper   = "waypaper"
 local fileManager = "thunar"
-local editor      = "code"
 
 local sysScript   = "~/.config/hypr/scripts/sys_info.sh"
 
@@ -31,8 +30,6 @@ hl.bind(mainMod .. " + Space",     hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd(powerMenu))
 hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd(wallpaper))
 hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + S",         hl.dsp.exec_cmd("signal-desktop"))
-hl.bind(mainMod .. " + C",         hl.dsp.exec_cmd(editor))
 
 -- Move focus (vim keys and arrows)
 for _, m in ipairs({
@@ -84,7 +81,3 @@ hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
 -- Voice to text (push-to-talk): start on press, stop on release
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprvoice.sh start"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprvoice.sh stop"), { release = true })
-
--- AI Terminal Command (push-to-talk): start on press, stop on release
-hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprshell.sh start"))
-hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprshell.sh stop"), { release = true })

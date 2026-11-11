@@ -15,7 +15,6 @@ Thumbs.db
 # ── NeoVim ────────────────────────────────────────────────
 **/nvim/plugin/packer_compiled.lua
 **/nvim/spell/*.add
-**/nvim/lazy-lock.json
 *.spl
 
 # ── Shell history / zsh ──────────────────────────────────
