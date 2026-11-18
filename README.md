@@ -10,7 +10,7 @@ The following configurations are tracked in this repository:
 - **Terminal:** `ghostty` configured with Catppuccin and proper font settings.
 - **Editor:** `neovim` (Lazy-based config).
 - **Window Manager:** `hyprland` (Wayland compositor) with `hypridle`/`hyprlock` (idle & lock) and `hyprpaper` (wallpaper).
-- **Status Bar:** `quickshell` bar (QML, kept untracked at `~/.config/quickshell`) replicating the previous waybar, with frosted-glass blur through the `quickshell` layer namespace; `waybar` stays installed as a fallback.
+- **Status Bar:** `quickshell` bar (QML, `~/.config/quickshell`) replicating the previous waybar, with frosted-glass blur through the `quickshell` layer namespace; `waybar` stays installed as a fallback.
 - **Notifications & Menus:** `mako` (notifications), `fuzzel` (app launcher), and `wlogout` (logout menu).
 - **Agent Workspaces:** `herdr` (terminal workspace manager for AI coding agents) with a tracked `config.toml`.
 - **System Monitors:** `htop` (custom layout).

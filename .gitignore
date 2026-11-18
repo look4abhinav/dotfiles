@@ -55,9 +55,6 @@ env/
 # ── Waybar compiled/logs ──────────────────────────────────
 **/waybar/waybar.log
 
-# ── Quickshell bar (kept local in ~/.config, untracked) ──
-.config/quickshell/
-
 # ── herdr runtime state (logs, session.json, plugins.lock) ─
 # herdr keeps runtime artifacts next to config.toml; track only the config
 **/herdr/*
