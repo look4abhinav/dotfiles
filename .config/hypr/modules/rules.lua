@@ -7,6 +7,7 @@ for _, namespace in ipairs({
     "launcher",
     "clipboard",
     "waybar",
+    "quickshell",
 }) do
     hl.layer_rule({
         name         = namespace .. "_glass",

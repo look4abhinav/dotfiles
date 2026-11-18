@@ -10,7 +10,7 @@ The following configurations are tracked in this repository:
 - **Terminal:** `ghostty` configured with Catppuccin and proper font settings.
 - **Editor:** `neovim` (Lazy-based config).
 - **Window Manager:** `hyprland` (Wayland compositor) with `hypridle`/`hyprlock` (idle & lock) and `hyprpaper` (wallpaper).
-- **Status Bar:** `waybar` with custom modules and a glassmorphism-themed CSS.
+- **Status Bar:** `quickshell` bar (QML, `~/.config/quickshell`) replicating the previous waybar, with frosted-glass blur through the `quickshell` layer namespace; `waybar` stays installed as a fallback.
 - **Notifications & Menus:** `mako` (notifications), `fuzzel` (app launcher), and `wlogout` (logout menu).
 - **Agent Workspaces:** `herdr` (terminal workspace manager for AI coding agents) with a tracked `config.toml`.
 - **System Monitors:** `htop` (custom layout).
@@ -19,7 +19,7 @@ The following configurations are tracked in this repository:
 - **Git:** Customized `~/.gitconfig` with identity, GitHub authentication, aliases, and workflow defaults; commit signing is user-managed.
 
 ## 🎨 Theme
-The central theme across these dotfiles is **Catppuccin Mocha**, providing a consistent and beautiful experience across Neovim, Ghostty, and Bat. The Hyprland/waybar/mako/wlogout layer uses a complementary "liquid glass" cyan accent (`#33ccff`) on top of the Mocha base.
+The central theme across these dotfiles is **Catppuccin Mocha**, providing a consistent and beautiful experience across Neovim, Ghostty, and Bat. The Hyprland bar/mako/wlogout layer uses a complementary "liquid glass" cyan accent on top of the Mocha base.
 
 ## 📥 Installation
 

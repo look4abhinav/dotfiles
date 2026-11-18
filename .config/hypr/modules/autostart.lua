@@ -3,7 +3,7 @@
 -- Programs spawned once when the session starts. The hyprland.start event
 -- fires exactly once per session, so these are not re-run on config reload.
 local programs = {
-    "waybar",
+    "qs --no-duplicate",
     "mako",
     "waypaper --restore",
     "hypridle -c ~/.config/hypr/hypridle.conf",
