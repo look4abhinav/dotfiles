@@ -8,7 +8,9 @@ import QtQuick
 Item {
     id: root
 
-    readonly property string blDir: Quickshell.env("BACKLIGHT_DIR") || "/sys/class/backlight/intel_backlight"
+    // BACKLIGHT_DIR pins a specific device; otherwise the first sysfs entry
+    // wins at startup, so the module travels across machines.
+    property string blDir: Quickshell.env("BACKLIGHT_DIR") || ""
     property real maxLevel: 1
     property real level: 0
     property real pending: -1
@@ -24,22 +26,38 @@ Item {
         id: hover
     }
 
+    // Poll only while a readable device exists; on machines without one
+    // this stays hidden instead of polling a dead sysfs path forever.
     Timer {
         interval: 500
-        running: true
+        running: root.available
         repeat: true
         onTriggered: root.read()
     }
 
+    Process {
+        id: detect
+        command: ["sh", "-c", "ls -1 /sys/class/backlight 2>/dev/null | head -n 1"]
+        stdout: StdioCollector {
+            id: collector
+            onStreamFinished: {
+                const name = collector.text.trim();
+                if (name !== "")
+                    root.blDir = "/sys/class/backlight/" + name;
+                root.read();
+            }
+        }
+    }
+
     FileView {
         id: levelView
-        path: root.blDir + "/brightness"
+        path: root.blDir !== "" ? root.blDir + "/brightness" : ""
         blockLoading: true
     }
 
     FileView {
         id: maxView
-        path: root.blDir + "/max_brightness"
+        path: root.blDir !== "" ? root.blDir + "/max_brightness" : ""
         blockLoading: true
     }
 
@@ -84,6 +102,11 @@ Item {
         onWheeled: delta => Quickshell.execDetached([
             "brightnessctl", "set", delta > 0 ? "+5%" : "-5%",
         ])
+
+        Tooltip {
+            target: pill.hoverItem
+            html: `Brightness: <span style="color:${Theme.highlight}">${Math.round(root.percent)}%</span>`
+        }
     }
 
     Slider {
@@ -99,6 +122,8 @@ Item {
     }
 
     function read() {
+        if (root.blDir === "")
+            return;
         maxView.reload();
         levelView.reload();
         const max = parseInt(maxView.text().trim(), 10);
@@ -111,5 +136,10 @@ Item {
             root.level = Math.min(level, root.maxLevel);
     }
 
-    Component.onCompleted: read()
+    Component.onCompleted: {
+        if (root.blDir !== "")
+            root.read();
+        else
+            detect.running = true;
+    }
 }
