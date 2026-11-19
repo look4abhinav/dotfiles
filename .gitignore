@@ -44,6 +44,9 @@ __pycache__/
 credentials
 secrets/
 
+# ── Personal Hyprland scripts (machine-local) ─
+.config/hypr/custom/
+
 # ── Node / Python / language runtimes ─────────────────────
 node_modules/
 .pnpm-store/

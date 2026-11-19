@@ -85,5 +85,5 @@ hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.config/hypr/scripts/clipboard.sh"
 hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
 
 -- Voice to text (push-to-talk): start on press, stop on release
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprvoice.sh start"))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/hyprvoice.sh stop"), { release = true })
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/custom/hyprvoice.sh start"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("~/.config/hypr/custom/hyprvoice.sh stop"), { release = true })

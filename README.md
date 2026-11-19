@@ -10,6 +10,7 @@ The following configurations are tracked in this repository:
 - **Terminal:** `ghostty` configured with Catppuccin and proper font settings.
 - **Editor:** `neovim` (Lazy-based config).
 - **Window Manager:** `hyprland` (Wayland compositor) with `hypridle`/`hyprlock` (idle & lock) and Waypaper driving `hyprpaper` for wallpapers.
+- **Hyprland scripts:** the repo ships only the generic ones under `~/.config/hypr/scripts/` (`clipboard.sh`, `screenshot.sh`, `sys_info.sh`, `wifi-menu.sh`). Personal scripts such as the voice dictation and the dock hook live untracked in `~/.config/hypr/custom/`; the Super+R dictation bind and the kanshi dock hooks expect them there, so add your own.
 - **Status Bar:** `quickshell` bar (QML, `~/.config/quickshell`) with frosted-glass blur through the `quickshell` layer namespace. Requires `quickshell`, `upower`, and `brightnessctl` for brightness writes. Click actions expect `ghostty`, `pavucontrol`, `bluetui`, `btop`, `htop`, `wlogout`, NetworkManager, and `~/.config/hypr/scripts/wifi-menu.sh` to be available.
 - **Notifications & Menus:** `mako` (notifications), `fuzzel` (app launcher), and `wlogout` (logout menu).
 - **Agent Workspaces:** `herdr` (terminal workspace manager for AI coding agents) with a tracked `config.toml`.
@@ -42,7 +43,7 @@ The TUI stack uses **Catppuccin Mocha** across Neovim, Ghostty, and Bat. The Hyp
    cp .config/hypr/.env.example .config/hypr/.env
    chmod 600 .config/hypr/.env
    ```
-   Fill in `OPENAI_API_KEY` and `OPENAI_BASE_URL`. The file is ignored by Git.
+   Fill in `OPENAI_API_KEY` and `OPENAI_BASE_URL`. The file is ignored by Git. The dictation script itself is personal and untracked: place your `hyprvoice.sh` in `~/.config/hypr/custom/`, where the Super+R bind expects it.
 
 4. **Verify the desktop bar:**
    Quickshell, UPower, and brightnessctl must be installed and available on `PATH`. The bar is started by `~/.config/hypr/modules/autostart.lua` with `qs --no-duplicate`.
