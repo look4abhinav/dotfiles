@@ -34,6 +34,7 @@ PanelWindow {
             anchors.verticalCenter: parent.verticalCenter
 
             Workspaces {}
+            Submap {}
             CpuStats {}
             MemoryStats {}
             IdleInhibitorButton {
