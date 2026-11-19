@@ -39,4 +39,13 @@ Singleton {
             return warn;
         return good;
     }
+
+    // External strings (SSID, device and sink names) land in Text.RichText
+    // tooltips; escape them so hostile names cannot inject markup.
+    function escapeHtml(text): string {
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+    }
 }

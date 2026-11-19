@@ -28,10 +28,10 @@ BarItem {
             if (!root.adapter)
                 return `Bluetooth: <span style="color:${Theme.bad}">No Controller</span>`;
             if (root.connectedDevices.length > 0) {
-                let out = `Bluetooth: <span style="color:${Theme.good}">Connected</span>  ${root.adapter.name}`;
+                let out = `Bluetooth: <span style="color:${Theme.good}">Connected</span>  ${Theme.escapeHtml(root.adapter.name)}`;
                 out += `<br/><span style="color:${Theme.highlight}">${root.connectedDevices.length} device${root.connectedDevices.length > 1 ? "s" : ""}</span>`;
                 for (const d of root.connectedDevices)
-                    out += `<br/>${d.name}  ${d.address}`;
+                    out += `<br/>${Theme.escapeHtml(d.name)}  ${d.address}`;
                 return out;
             }
             if (root.powered)

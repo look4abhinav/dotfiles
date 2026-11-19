@@ -63,7 +63,7 @@ Item {
 
         Tooltip {
             target: pill.hoverItem
-            html: `Volume: <span style="color:${Theme.highlight}">${Math.round(root.volume * 100)}%</span>  ${root.sink ? root.sink.description : ""}`
+            html: `Volume: <span style="color:${Theme.highlight}">${Math.round(root.volume * 100)}%</span>  ${root.sink ? Theme.escapeHtml(root.sink.description) : ""}`
         }
     }
 

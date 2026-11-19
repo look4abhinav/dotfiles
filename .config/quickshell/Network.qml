@@ -29,10 +29,10 @@ BarItem {
         target: root.hoverItem
         html: {
             if (root.wired && root.wired.connected)
-                return `${root.wired.name}  <span style="color:${Theme.good}">Connected</span>`;
+                return `${Theme.escapeHtml(root.wired.name)}  <span style="color:${Theme.good}">Connected</span>`;
             if (root.wifiNet) {
                 const signal = Math.round(root.wifiNet.signalStrength * 100);
-                return `${root.wifiNet.name}  <span style="color:${Theme.good}">Connected</span>  `
+                return `${Theme.escapeHtml(root.wifiNet.name)}  <span style="color:${Theme.good}">Connected</span>  `
                     + `Signal: <span style="color:${Theme.highlight}">${signal}%</span>`;
             }
             if (!Networking.wifiEnabled)
