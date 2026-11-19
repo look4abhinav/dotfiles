@@ -1,6 +1,6 @@
 # 🚀 Dotfiles
 
-This repository contains my personal dotfiles and configuration files, managed using GNU `stow`. The setup is designed to be minimal, fast, and unified under the **Catppuccin Mocha** theme.
+This repository contains my personal dotfiles and configuration files, managed using GNU `stow`. The setup is designed for a fast Wayland desktop. TUI applications use **Catppuccin Mocha**; the Hyprland shell uses a complementary cyan glass accent.
 
 ## 🛠️ Tools & Configurations Included
 
@@ -9,8 +9,8 @@ The following configurations are tracked in this repository:
 - **Shell:** `zsh` with `zinit` for blazing-fast plugin management, and `powerlevel10k` for the prompt.
 - **Terminal:** `ghostty` configured with Catppuccin and proper font settings.
 - **Editor:** `neovim` (Lazy-based config).
-- **Window Manager:** `hyprland` (Wayland compositor) with `hypridle`/`hyprlock` (idle & lock) and `hyprpaper` (wallpaper).
-- **Status Bar:** `quickshell` bar (QML, `~/.config/quickshell`) replicating the previous waybar, with frosted-glass blur through the `quickshell` layer namespace; `waybar` stays installed as a fallback.
+- **Window Manager:** `hyprland` (Wayland compositor) with `hypridle`/`hyprlock` (idle & lock) and Waypaper/Hyprpaper for wallpapers.
+- **Status Bar:** `quickshell` bar (QML, `~/.config/quickshell`) with frosted-glass blur through the `quickshell` layer namespace. Requires `quickshell` and `upower`.
 - **Notifications & Menus:** `mako` (notifications), `fuzzel` (app launcher), and `wlogout` (logout menu).
 - **Agent Workspaces:** `herdr` (terminal workspace manager for AI coding agents) with a tracked `config.toml`.
 - **System Monitors:** `htop` (custom layout).
@@ -19,7 +19,7 @@ The following configurations are tracked in this repository:
 - **Git:** Customized `~/.gitconfig` with identity, GitHub authentication, aliases, and workflow defaults; commit signing is user-managed.
 
 ## 🎨 Theme
-The central theme across these dotfiles is **Catppuccin Mocha**, providing a consistent and beautiful experience across Neovim, Ghostty, and Bat. The Hyprland bar/mako/wlogout layer uses a complementary "liquid glass" cyan accent on top of the Mocha base.
+The TUI stack uses **Catppuccin Mocha** across Neovim, Ghostty, and Bat. The Hyprland bar, Mako, and wlogout use a complementary "liquid glass" cyan accent on top of the Mocha base.
 
 ## 📥 Installation
 
@@ -30,12 +30,21 @@ The central theme across these dotfiles is **Catppuccin Mocha**, providing a con
    ```
 
 2. **Deploy with GNU Stow:**
-   Because of the flat structure used in this repository, you simply stow the current directory (`.`) into your home directory:
+   Stow the repository into your home directory explicitly:
    ```bash
-   stow .
+   stow --target="$HOME" --no-folding .
    ```
-   *Note: This will symlink `dotfiles/.config/*` into `~/.config/` and top-level files like `.zshrc` and `.gitconfig` directly to your home directory.*
+   The repository uses `.stow-local-ignore` to keep Git metadata, `AGENTS.md`, `README.md`, `.env`, caches, and editor artifacts out of `$HOME`.
+
+3. **Configure voice dictation (optional):**
+   ```bash
+   cp .config/hypr/.env.example .config/hypr/.env
+   chmod 600 .config/hypr/.env
+   ```
+   Fill in `OPENAI_API_KEY` and `OPENAI_BASE_URL`. The file is ignored by Git.
+
+4. **Verify the desktop bar:**
+   Quickshell and UPower must be installed and available on `PATH`. The bar is started by `~/.config/hypr/modules/autostart.lua` with `qs --no-duplicate`.
 
 ## 💡 Note on the `stow` Structure
-This repository uses a "flat" stow architecture, meaning the folder structure precisely mirrors your home directory layout.
-If you decide to split applications into their own individual stow packages (e.g., `~/dotfiles/nvim/.config/nvim`), you'll be able to install them piecemeal (e.g., `stow nvim`), but the current flat strategy works perfectly for "all-or-nothing" rapid deployment!
+This repository uses a "flat" stow layout that mirrors your home directory. The explicit `--target="$HOME"` form is required when the repository is not located directly under `$HOME`.

@@ -1,0 +1,16 @@
+\.git$
+\.git/
+\.github/
+\.gitignore$
+\.stow-local-ignore$
+\.env$
+\.env\..*$
+AGENTS\.md$
+README\.md$
+\.ruff_cache/
+__pycache__/
+\.py[co]$
+\.cache$
+\.sw[op]$
+~$
+\.DS_Store$

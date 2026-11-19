@@ -1,0 +1,26 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install validation tools
+        run: pacman -Syu --noconfirm bash zsh shellcheck shfmt stylua lua qt6-declarative
+      - name: Validate shell and Lua
+        run: |
+          for script in .config/hypr/scripts/*.sh; do
+            bash -n "$script"
+          done
+          zsh -n .zshrc
+          shellcheck -S style .config/hypr/scripts/*.sh
+          shfmt -d -i 0 -ci .config/hypr/scripts/*.sh
+          stylua --check .
+          find .config/hypr .config/nvim -name '*.lua' -print0 | xargs -0 -n1 luac -p
+      - name: Validate QML
+        run: /usr/lib/qt6/bin/qmllint .config/quickshell/*.qml

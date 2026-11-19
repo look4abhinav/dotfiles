@@ -5,8 +5,8 @@
 -- lives in kanshi profiles plus hypr/scripts/dock.sh, so this file stays
 -- identical on all machines.
 hl.monitor({
-    output   = "",
-    mode     = "preferred",
+    output = "",
+    mode = "preferred",
     position = "auto",
-    scale    = "1",
+    scale = "auto",
 })

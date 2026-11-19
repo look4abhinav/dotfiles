@@ -67,6 +67,7 @@ bindkey -s '^Gp' 'git push origin'
 # =============================================================================
 chpwd() {
     emulate -L zsh
+    [[ ${AUTO_VENV:-0} == 1 ]] || return 0
     if [[ -n "$VIRTUAL_ENV" ]]; then
         local env_root="${VIRTUAL_ENV:h}"
         if [[ "$PWD" != "$env_root" && "$PWD" != "$env_root"/* ]]; then
@@ -90,7 +91,6 @@ chpwd() {
 HISTSIZE=10000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
-HISTDUP=erase
 setopt appendhistory sharehistory hist_ignore_space hist_ignore_all_dups hist_save_no_dups hist_ignore_dups hist_find_no_dups
 
 # =============================================================================
@@ -107,11 +107,10 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -alh $realpath'
 # =============================================================================
 alias nv='nvim'
 alias c='clear'
-alias ca='c;:>~/.zsh_history'
 alias ls='eza -alh'
 command -v paru >/dev/null && alias up='paru -Syu' || alias up='sudo pacman -Syu'
 alias upy='UV_NO_MODIFY_PATH=1 uv self update; uv tool upgrade --all'
-alias path='print -l -- ${(s/:/)PATH}'
+alias showpath='print -l -- ${(s/:/)PATH}'
 alias zrc='nv ~/.zshrc; source ~/.zshrc'
 alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
 alias pyc='fd -H -I "^(__pycache__|\.ruff_cache|\.pytest_cache|\.mypy_cache|\.ipynb_checkpoints|\.eggs|\.tox)$|\.(egg-info|egg|pyc|pyo)$" -X rm -rf'

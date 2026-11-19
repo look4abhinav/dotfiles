@@ -7,60 +7,66 @@ hl.config({
     },
 })
 
-local mainMod     = "SUPER"
-local terminal    = "ghostty"
-local browser     = "zen-browser"
-local menu        = "fuzzel"
-local powerMenu   = "wlogout -b 3 -T 300 -B 300 -L 150 -R 150"
-local wallpaper   = "waypaper"
+local mainMod = "SUPER"
+local terminal = "ghostty"
+local browser = "zen-browser"
+local menu = "fuzzel"
+local powerMenu = "wlogout -b 4 -T 300 -B 300 -L 150 -R 150"
+local wallpaper = "waypaper"
 local fileManager = "thunar"
 
-local sysScript   = "~/.config/hypr/scripts/sys_info.sh"
+local sysScript = "~/.config/hypr/scripts/sys_info.sh"
 
 -- Apps and window management
-hl.bind(mainMod .. " + Return",    hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + Q",         hl.dsp.window.close())
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit())
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock -c ~/.config/hypr/hyprlock.conf"))
-hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(browser))
-hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd(browser .. " --private-window"))
-hl.bind(mainMod .. " + Space",     hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(browser .. " --private-window"))
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd(powerMenu))
-hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd(wallpaper))
-hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen())
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(wallpaper))
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
 -- Move focus (vim keys and arrows)
 for _, m in ipairs({
-    { key = "h",     dir = "left"  },
-    { key = "l",     dir = "right" },
-    { key = "k",     dir = "up"    },
-    { key = "j",     dir = "down"  },
-    { key = "left",  dir = "left"  },
+    { key = "h", dir = "left" },
+    { key = "l", dir = "right" },
+    { key = "k", dir = "up" },
+    { key = "j", dir = "down" },
+    { key = "left", dir = "left" },
     { key = "right", dir = "right" },
-    { key = "up",    dir = "up"    },
-    { key = "down",  dir = "down"  },
+    { key = "up", dir = "up" },
+    { key = "down", dir = "down" },
 }) do
     hl.bind(mainMod .. " + " .. m.key, hl.dsp.focus({ direction = m.dir }))
 end
 
 -- Move/resize windows by dragging with SUPER + left/right mouse button
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Workspaces 1-5: SUPER switches, SUPER + SHIFT moves the active window
 for i = 1, 5 do
-    hl.bind(mainMod .. " + " .. i,         hl.dsp.focus({ workspace = i }))
+    hl.bind(mainMod .. " + " .. i, hl.dsp.focus({ workspace = i }))
     hl.bind(mainMod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
 end
 
+-- Media controls
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
+hl.bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"))
+
 -- Volume and screen brightness (OSD notifications via sys_info.sh)
 for _, m in ipairs({
-    { key = "XF86AudioRaiseVolume",  arg = "vol_up",      repeating = true },
-    { key = "XF86AudioLowerVolume",  arg = "vol_down",    repeating = true },
-    { key = "XF86AudioMute",         arg = "vol_mute" },
-    { key = "XF86MonBrightnessUp",   arg = "bright_up",   repeating = true },
+    { key = "XF86AudioRaiseVolume", arg = "vol_up", repeating = true },
+    { key = "XF86AudioLowerVolume", arg = "vol_down", repeating = true },
+    { key = "XF86AudioMute", arg = "vol_mute" },
+    { key = "XF86MonBrightnessUp", arg = "bright_up", repeating = true },
     { key = "XF86MonBrightnessDown", arg = "bright_down", repeating = true },
 }) do
     hl.bind(m.key, hl.dsp.exec_cmd(sysScript .. " " .. m.arg), { repeating = m.repeating })

@@ -3,15 +3,13 @@
 -- Exported to the Hyprland session and inherited by every launched app.
 
 local vars = {
-    { "XCURSOR_SIZE",                       "26" },
-    { "HYPRCURSOR_SIZE",                    "26" },
-    { "QT_QPA_PLATFORM",                    "wayland;xcb" },
-    { "QT_QPA_PLATFORMTHEME",               "qt5ct" },
+    { "XCURSOR_SIZE", "26" },
+    { "HYPRCURSOR_SIZE", "26" },
+    { "QT_QPA_PLATFORM", "wayland;xcb" },
+    { "QT_QPA_PLATFORMTHEME", "qt5ct" },
     { "QT_WAYLAND_DISABLE_WINDOWDECORATION", "1" },
-    { "QT_AUTO_SCREEN_SCALE_FACTOR",        "1" },
-    { "GDK_SCALE",                          "1" },
-    { "GTK_THEME",                          "Adwaita:dark" },
-    -- Expanded here because env values are not shell-expanded by the compositor.
+    { "QT_AUTO_SCREEN_SCALE_FACTOR", "1" },
+    { "GTK_THEME", "Adwaita:dark" },
 }
 
 local runtime = os.getenv("XDG_RUNTIME_DIR")

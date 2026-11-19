@@ -19,7 +19,7 @@ fi
 
 valid_brightness() {
 	case "${1-}" in
-		''|*[!0-9]*) return 1 ;;
+		'' | *[!0-9]*) return 1 ;;
 		*) return 0 ;;
 	esac
 }
@@ -143,11 +143,11 @@ move_workspaces() {
 
 event="${1-}"
 case "$event" in
-docked|undocked) ;;
-*)
-	echo "Usage: $0 {docked|undocked}" >&2
-	exit 1
-	;;
+	docked | undocked) ;;
+	*)
+		echo "Usage: $0 {docked|undocked}" >&2
+		exit 1
+		;;
 esac
 
 if ! acquire_lock; then
@@ -159,14 +159,14 @@ observe_dock_state || exit 0
 [ "$event" = "$observed_state" ] || exit 0
 
 case "$event" in
-docked)
-	save_brightness
-	wake_displays
-	move_workspaces "$target"
-	;;
-undocked)
-	wake_displays
-	move_workspaces "$target"
-	restore_brightness
-	;;
+	docked)
+		save_brightness
+		wake_displays
+		move_workspaces "$target"
+		;;
+	undocked)
+		wake_displays
+		move_workspaces "$target"
+		restore_brightness
+		;;
 esac

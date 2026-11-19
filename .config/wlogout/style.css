@@ -31,6 +31,10 @@ button:focus, button:active, button:hover {
     color: rgba(255, 255, 255, 1);
 }
 
+#lock {
+    background-image: image(url("/usr/share/wlogout/icons/lock.png"));
+}
+
 #suspend {
     background-image: image(url("/usr/share/wlogout/icons/suspend.png"));
 }

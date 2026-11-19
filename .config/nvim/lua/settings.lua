@@ -23,14 +23,14 @@ vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.opt.virtualedit = "onemore"
 vim.opt.guicursor =
-	"n-v-c:block-blinkwait300-blinkon200-blinkoff150,i-ci-ve:ver25-blinkwait300-blinkon200-blinkoff150,r-cr:hor20-blinkwait300-blinkon200-blinkoff150,o:hor50-blinkwait300-blinkon200-blinkoff150"
+    "n-v-c:block-blinkwait300-blinkon200-blinkoff150,i-ci-ve:ver25-blinkwait300-blinkon200-blinkoff150,r-cr:hor20-blinkwait300-blinkon200-blinkoff150,o:hor50-blinkwait300-blinkon200-blinkoff150"
 
 vim.opt.clipboard = "unnamedplus"
 
 vim.diagnostic.config({
-	virtual_text = { prefix = "●", spacing = 4 },
-	signs = true,
-	underline = true,
-	update_in_insert = false,
-	severity_sort = true,
+    virtual_text = { prefix = "●", spacing = 4 },
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
 })

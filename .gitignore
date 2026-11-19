@@ -13,7 +13,6 @@ Thumbs.db
 *.code-workspace
 
 # ── NeoVim ────────────────────────────────────────────────
-**/nvim/plugin/packer_compiled.lua
 **/nvim/spell/*.add
 *.spl
 
@@ -51,9 +50,6 @@ node_modules/
 .venv/
 venv/
 env/
-
-# ── Waybar compiled/logs ──────────────────────────────────
-**/waybar/waybar.log
 
 # ── herdr runtime state (logs, session.json, plugins.lock) ─
 # herdr keeps runtime artifacts next to config.toml; track only the config

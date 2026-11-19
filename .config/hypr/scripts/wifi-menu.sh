@@ -23,12 +23,12 @@ roottext=white,black
 
 # Launch ghostty with glassmorphism settings (transparency + blur)
 exec ghostty \
-  --title=wifi \
-  --background-opacity=0.3 \
-  --background-blur=20 \
-  --background=#0c0c0c \
-  --window-decoration=false \
-  --font-size=16 \
-  --window-padding-x=15 \
-  --window-padding-y=15 \
-  -e nmtui-connect
+	--title=wifi \
+	--background-opacity=0.3 \
+	--background-blur=20 \
+	--background=#0c0c0c \
+	--window-decoration=false \
+	--font-size=16 \
+	--window-padding-x=15 \
+	--window-padding-y=15 \
+	-e nmtui-connect
