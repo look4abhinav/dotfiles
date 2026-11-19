@@ -1,0 +1,6 @@
+[Unit]
+Description=Prune cliphist history to the most recent 500 entries
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "cliphist list | tail -n +501 | cliphist delete"
