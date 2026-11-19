@@ -8,9 +8,11 @@ import QtQuick
 Item {
     id: root
 
-    // BACKLIGHT_DIR pins a specific device; otherwise the first sysfs entry
-    // wins at startup, so the module travels across machines.
+    // BACKLIGHT_DIR pins a specific device; otherwise the first sysfs
+    // entry with a working max_brightness wins at startup, so the module
+    // travels across machines.
     property string blDir: Quickshell.env("BACKLIGHT_DIR") || ""
+    property string blName: ""
     property real maxLevel: 1
     property real level: 0
     property real pending: -1
@@ -37,13 +39,15 @@ Item {
 
     Process {
         id: detect
-        command: ["sh", "-c", "ls -1 /sys/class/backlight 2>/dev/null | head -n 1"]
+        command: ["sh", "-c", "for d in /sys/class/backlight/*; do m=$(cat \"$d/max_brightness\" 2>/dev/null) || continue; [ \"$m\" -gt 0 ] 2>/dev/null || continue; printf '%s\\n' \"${d##*/}\"; break; done"]
         stdout: StdioCollector {
             id: collector
             onStreamFinished: {
                 const name = collector.text.trim();
-                if (name !== "")
+                if (name !== "") {
                     root.blDir = "/sys/class/backlight/" + name;
+                    root.blName = name;
+                }
                 root.read();
             }
         }
@@ -70,7 +74,7 @@ Item {
                 return;
             const pct = Math.round(root.pending * 100);
             root.pending = -1;
-            Quickshell.execDetached(["brightnessctl", "set", pct + "%"]);
+            root.writeBrightness(["set", pct + "%"]);
         }
     }
 
@@ -97,10 +101,10 @@ Item {
             }
         }
 
-        onClicked: Quickshell.execDetached(["brightnessctl", "set", "+10%"])
+        onClicked: root.writeBrightness(["set", "+10%"])
 
-        onWheeled: delta => Quickshell.execDetached([
-            "brightnessctl", "set", delta > 0 ? "+5%" : "-5%",
+        onWheeled: delta => root.writeBrightness([
+            "set", delta > 0 ? "+5%" : "-5%",
         ])
 
         Tooltip {
@@ -136,10 +140,21 @@ Item {
             root.level = Math.min(level, root.maxLevel);
     }
 
-    Component.onCompleted: {
-        if (root.blDir !== "")
-            root.read();
+    // Targets the detected device explicitly so displayed and written
+    // brightness cannot diverge on multi-backlight machines.
+    function writeBrightness(args) {
+        if (root.blName !== "")
+            Quickshell.execDetached(["brightnessctl", "-d", root.blName, ...args]);
         else
+            Quickshell.execDetached(["brightnessctl", ...args]);
+    }
+
+    Component.onCompleted: {
+        if (root.blDir !== "") {
+            root.blName = root.blDir.substring(root.blDir.lastIndexOf("/") + 1);
+            root.read();
+        } else {
             detect.running = true;
+        }
     }
 }
