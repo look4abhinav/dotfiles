@@ -9,8 +9,8 @@ The following configurations are tracked in this repository:
 - **Shell:** `zsh` with `zinit` for blazing-fast plugin management, and `powerlevel10k` for the prompt.
 - **Terminal:** `ghostty` configured with Catppuccin and proper font settings.
 - **Editor:** `neovim` (Lazy-based config).
-- **Window Manager:** `hyprland` (Wayland compositor) with `hypridle`/`hyprlock` (idle & lock) and Waypaper/Hyprpaper for wallpapers.
-- **Status Bar:** `quickshell` bar (QML, `~/.config/quickshell`) with frosted-glass blur through the `quickshell` layer namespace. Requires `quickshell` and `upower`.
+- **Window Manager:** `hyprland` (Wayland compositor) with `hypridle`/`hyprlock` (idle & lock) and Waypaper driving `hyprpaper` for wallpapers.
+- **Status Bar:** `quickshell` bar (QML, `~/.config/quickshell`) with frosted-glass blur through the `quickshell` layer namespace. Requires `quickshell`, `upower`, and `brightnessctl` for brightness writes. Click actions expect `ghostty`, `pavucontrol`, `bluetui`, `btop`, `htop`, `wlogout`, NetworkManager, and `~/.config/hypr/scripts/wifi-menu.sh` to be available.
 - **Notifications & Menus:** `mako` (notifications), `fuzzel` (app launcher), and `wlogout` (logout menu).
 - **Agent Workspaces:** `herdr` (terminal workspace manager for AI coding agents) with a tracked `config.toml`.
 - **System Monitors:** `htop` (custom layout).
@@ -32,8 +32,9 @@ The TUI stack uses **Catppuccin Mocha** across Neovim, Ghostty, and Bat. The Hyp
 2. **Deploy with GNU Stow:**
    Stow the repository into your home directory explicitly:
    ```bash
-   stow --target="$HOME" --no-folding .
+   stow --restow --no-folding --target="$HOME" .
    ```
+   Re-running this command also unfolds an older directory-folded deployment.
    The repository uses `.stow-local-ignore` to keep Git metadata, `README.md`, `.env`, caches, and editor artifacts out of `$HOME`; `AGENTS.md` is stowed.
 
 3. **Configure voice dictation (optional):**
@@ -44,7 +45,7 @@ The TUI stack uses **Catppuccin Mocha** across Neovim, Ghostty, and Bat. The Hyp
    Fill in `OPENAI_API_KEY` and `OPENAI_BASE_URL`. The file is ignored by Git.
 
 4. **Verify the desktop bar:**
-   Quickshell and UPower must be installed and available on `PATH`. The bar is started by `~/.config/hypr/modules/autostart.lua` with `qs --no-duplicate`.
+   Quickshell, UPower, and brightnessctl must be installed and available on `PATH`. The bar is started by `~/.config/hypr/modules/autostart.lua` with `qs --no-duplicate`.
 
 ## 💡 Note on the `stow` Structure
 This repository uses a "flat" stow layout that mirrors your home directory. The explicit `--target="$HOME"` form is required when the repository is not located directly under `$HOME`.
