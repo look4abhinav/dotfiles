@@ -55,7 +55,7 @@ BarItem {
         blockLoading: true
     }
 
-    function sample(): void {
+    function sample() {
         memView.reload();
         const values = {};
         for (const line of memView.text().split("\n")) {

@@ -3,13 +3,12 @@ import Quickshell.Wayland
 import QtQuick
 
 // Hover tooltip shown below `target` (BarItem.hoverItem), centered on it.
-// Rendered as its own layer-shell window (not an xdg popup) so the
-// compositor's blur rule frosts it exactly like the old waybar tooltips.
+// Rendered as its own layer-shell window so the compositor's blur rule applies.
 PanelWindow {
     id: root
 
     required property Item target
-    property string text: ""
+
     property string html: ""
 
     anchors {
@@ -53,7 +52,7 @@ PanelWindow {
         Text {
             id: tipText
             anchors.centerIn: parent
-            text: root.html !== "" ? root.html : root.text
+            text: root.html
             textFormat: root.html !== "" ? Text.RichText : Text.AutoText
             color: Theme.white
             font.family: Theme.fontFamily

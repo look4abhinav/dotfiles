@@ -18,7 +18,7 @@ BarItem {
 
     onClicked: Quickshell.execDetached([
         "wlogout",
-        "-b", "3",
+        "-b", "4",
         "-T", "300",
         "-B", "300",
         "-L", "150",

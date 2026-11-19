@@ -7,7 +7,7 @@ Singleton {
     readonly property string fontFamily: "JetBrainsMono Nerd Font Propo"
     readonly property int fontSize: 12
 
-    // Waybar style.css palette
+    // Shared Quickshell palette
     readonly property string highlight: "#75f1fa"
     readonly property string good: "#42ff9f"
     readonly property string warn: "#f0a040"
@@ -22,7 +22,7 @@ Singleton {
     readonly property color pillHover: Qt.rgba(1, 1, 1, 0.05)
     readonly property color tooltipBg: Qt.rgba(0, 0, 0, 0.6)
 
-    // Thresholds from the waybar system-stats script
+    // CPU, memory, swap, and battery thresholds
     readonly property int cpuWarn: 70
     readonly property int cpuCrit: 90
     readonly property int memWarn: 70

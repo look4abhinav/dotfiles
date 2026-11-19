@@ -2,8 +2,7 @@ import Quickshell
 import Quickshell.Services.Pipewire
 import QtQuick
 
-// Volume group: pill + slider that expands on hover, like waybar's
-// group/volume with pulseaudio + pulseaudio/slider.
+// Volume group: pill plus a slider that expands on hover.
 Item {
     id: root
 

@@ -99,7 +99,7 @@ BarItem {
                                 && day === calendar.ref.getDate()
                             readonly property string label: {
                                 const other = day < 1
-                                    ? new Date(calendar.ref.getFullYear(), calendar.ref.getMonth(), 1 + day)
+                                    ? new Date(calendar.ref.getFullYear(), calendar.ref.getMonth(), day)
                                     : new Date(calendar.ref.getFullYear(), calendar.ref.getMonth() + 1, day - calendar.daysInMonth);
                                 return String(inMonth ? day : other.getDate());
                             }

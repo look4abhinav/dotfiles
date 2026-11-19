@@ -55,7 +55,7 @@ BarItem {
         blockLoading: true
     }
 
-    function sample(): void {
+    function sample() {
         statView.reload();
         loadView.reload();
 
@@ -93,7 +93,8 @@ BarItem {
             return;
 
         const cores = [];
-        for (const name of Object.keys(usage).sort()) {
+        const sorted = Object.keys(usage).sort((a, b) => parseInt(a.slice(3)) - parseInt(b.slice(3)));
+        for (const name of sorted) {
             if (name !== "cpu")
                 cores.push(usage[name]);
         }

@@ -1,6 +1,6 @@
 import QtQuick
 
-// Pill-styled bar module container, replicating the waybar CSS:
+// Pill-styled bar module container:
 // 1px border, 6px horizontal padding, 6px radius, right margin between pills.
 Item {
     id: root

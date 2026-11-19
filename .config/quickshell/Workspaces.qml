@@ -73,9 +73,10 @@ BarItem {
                     hoverEnabled: true
                     onClicked: {
                         const target = wsButton.ws ? wsButton.ws.name : String(wsButton.modelData.id);
+                        const quoted = JSON.stringify(String(target));
                         // Lua config: dispatch takes a hl.dsp.* call, not the
                         // classic "workspace N" request form.
-                        Hyprland.dispatch(`hl.dsp.focus({ workspace = "${target}" })`);
+                        Hyprland.dispatch(`hl.dsp.focus({ workspace = ${quoted} })`);
                     }
                 }
             }

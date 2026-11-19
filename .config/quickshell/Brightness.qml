@@ -8,15 +8,17 @@ import QtQuick
 Item {
     id: root
 
-    readonly property string blDir: "/sys/class/backlight/intel_backlight"
+    readonly property string blDir: Quickshell.env("BACKLIGHT_DIR") || "/sys/class/backlight/intel_backlight"
     property real maxLevel: 1
     property real level: 0
     property real pending: -1
+    property bool available: false
 
     readonly property real percent: maxLevel > 0 ? level * 100 / maxLevel : 0
 
     implicitHeight: 36
     implicitWidth: pill.width + slider.implicitWidth
+    visible: available
 
     HoverHandler {
         id: hover
@@ -96,13 +98,15 @@ Item {
         }
     }
 
-    function read(): void {
+    function read() {
         maxView.reload();
         levelView.reload();
         const max = parseInt(maxView.text().trim(), 10);
         const level = parseInt(levelView.text().trim(), 10);
-        if (!Number.isNaN(max) && max > 0)
+        if (!Number.isNaN(max) && max > 0) {
             root.maxLevel = max;
+            root.available = true;
+        }
         if (!Number.isNaN(level))
             root.level = Math.min(level, root.maxLevel);
     }

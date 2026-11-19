@@ -6,13 +6,14 @@ BarItem {
     id: root
 
     readonly property var batt: UPower.displayDevice
-    readonly property int pct: Math.round(Math.min(1, batt.percentage) * 100)
-    readonly property bool present: batt.ready || batt.isPresent
-    readonly property bool charging: batt.state === UPowerDeviceState.Charging
-        || batt.state === UPowerDeviceState.PendingCharge
-    readonly property bool discharging: batt.state === UPowerDeviceState.Discharging
-    readonly property bool full: batt.state === UPowerDeviceState.FullyCharged
-    readonly property int timeLeft: charging ? batt.timeToFull : batt.timeToEmpty
+    readonly property int pct: batt == null ? 0 : Math.round(Math.min(1, batt.percentage) * 100)
+    readonly property bool present: batt != null && batt.isPresent
+    readonly property bool charging: batt != null
+        && (batt.state === UPowerDeviceState.Charging
+            || batt.state === UPowerDeviceState.PendingCharge)
+    readonly property bool discharging: batt != null && batt.state === UPowerDeviceState.Discharging
+    readonly property bool full: batt != null && batt.state === UPowerDeviceState.FullyCharged
+    readonly property int timeLeft: batt == null ? 0 : (charging ? batt.timeToFull : batt.timeToEmpty)
 
     readonly property var iconsDefault: [
         "\u{f008e}", "\u{f007a}", "\u{f007b}", "\u{f007c}", "\u{f007d}", "\u{f007e}",
@@ -57,7 +58,7 @@ BarItem {
         html: {
             const pctColor = root.pct <= Theme.battCrit ? Theme.bad
                 : root.pct <= Theme.battWarn ? Theme.warn
-                : root.good;
+                : Theme.good;
             const status = root.full ? "Full"
                 : root.charging ? `Charging  ${formatTime(root.timeLeft)}`
                 : root.discharging ? `Discharging  ${formatTime(root.timeLeft)}`

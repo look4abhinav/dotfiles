@@ -1,6 +1,6 @@
 import QtQuick
 
-// Waybar-style bare slider: slim trough with a fill bar, no handle.
+// Slim trough with a fill bar and no handle.
 // Drag anywhere on the trough. External value flows in through `initial`;
 // user drags come back out via the userChanged signal.
 Item {
