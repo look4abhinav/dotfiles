@@ -5,6 +5,10 @@ set -u
 umask 077
 
 runtime_dir="${XDG_RUNTIME_DIR-}"
+laptop_output="${DOCK_LAPTOP_OUTPUT-}"
+case "$laptop_output" in
+	'') laptop_output=eDP-1 ;;
+esac
 brightness_file=
 lock_file=
 if [ -n "$runtime_dir" ] &&
@@ -115,7 +119,7 @@ observe_dock_state() {
 	names="$(active_names)" || return 1
 	[ -n "$names" ] || return 1
 	while IFS= read -r name; do
-		if [ "$name" != eDP-1 ]; then
+		if [ "$name" != "$laptop_output" ]; then
 			target="$name"
 			break
 		fi
@@ -124,7 +128,7 @@ observe_dock_state() {
 		observed_state=docked
 	else
 		observed_state=undocked
-		target=eDP-1
+		target=$laptop_output
 	fi
 }
 
