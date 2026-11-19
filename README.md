@@ -34,7 +34,7 @@ The TUI stack uses **Catppuccin Mocha** across Neovim, Ghostty, and Bat. The Hyp
    ```bash
    stow --target="$HOME" --no-folding .
    ```
-   The repository uses `.stow-local-ignore` to keep Git metadata, `AGENTS.md`, `README.md`, `.env`, caches, and editor artifacts out of `$HOME`.
+   The repository uses `.stow-local-ignore` to keep Git metadata, `README.md`, `.env`, caches, and editor artifacts out of `$HOME`; `AGENTS.md` is stowed.
 
 3. **Configure voice dictation (optional):**
    ```bash
