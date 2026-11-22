@@ -17,7 +17,7 @@ BarItem {
 
     readonly property var iconsDefault: [
         "\u{f008e}", "\u{f007a}", "\u{f007b}", "\u{f007c}", "\u{f007d}", "\u{f007e}",
-        "\u{f007f}", "\u{f0080}", "\u{f0081}", "\u{f0082}", "\u{f0081}", "\u{f0089}",
+        "\u{f007f}", "\u{f0080}", "\u{f0081}", "\u{f0082}", "\u{f0079}",
     ]
     readonly property var iconsCharging: [
         "\u{f089f}", "\u{f089c}", "\u{f0086}", "\u{f0087}", "\u{f0088}", "\u{f089d}",
